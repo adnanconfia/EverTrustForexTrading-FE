@@ -9,6 +9,8 @@ import { AuthProvider } from "./context/authContext";
 import TokenVerifier from "./components/TokenVerifier";
 import { PrimeReactProvider } from "primereact/api";
 
+import "primeicons/primeicons.css";
+
 export default function App() {
   return (
     <div className="min-h-screen w-full overflow-x-hidden overflow-y-auto">

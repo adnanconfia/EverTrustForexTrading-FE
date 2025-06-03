@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
 import { useAuth } from "../context/authContext";
 import { useLoading } from "../context/LoaderContext";
+import { toast } from "react-toastify";
 const loginSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address")
@@ -36,7 +37,7 @@ const Login = () => {
       setUser(result.user);
       navigate(`/${result.user}/dashboard`);
     } catch (error) {
-      console.log("Login failed:", error);
+      toast.error(error.message || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -48,13 +49,13 @@ const Login = () => {
   "
       >
         <div>
-          <h2 className="font-semibold text-3xl">Welcome Back!</h2>
+          <h2 className="font-semibold text-xl">Welcome Back!</h2>
           <p className="text-gray-500">
             Sign in to continue with Ever Trust Forex Trading User Panel
           </p>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-normal text-gray-700">
                 Email address
               </label>
               <input
@@ -68,7 +69,7 @@ const Login = () => {
               </p>
             </div>
             <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-normal text-gray-700">
                 Password
               </label>
               <input
@@ -100,9 +101,9 @@ const Login = () => {
               className="w-full mt-6 text-white py-3 rounded-md 
              bg-gradient-to-r from-rose-400 to-cyan-500 
              hover:from-rose-400 hover:to-rose-400
-             transition-all duration-700 ease-in-out shadow-md text-lg font-semibold"
+             transition-all duration-700 ease-in-out shadow-md text-md font-semibold"
             >
-              ACCOUNT LOGIN
+              Account Login
             </button>
           </form>
           <div className="mt-6">

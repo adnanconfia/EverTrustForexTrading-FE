@@ -3,7 +3,7 @@ import { FiSun } from "react-icons/fi";
 
 const GlobalHeader = ({ onSidebarToggle, sidebarVisible }) => {
   return (
-    <header className="sticky top-0 left-0 w-full h-16 bg-[#002f46] px-3 text-white border-b border-gray-100 flex justify-between items-center shadow-xl z-50">
+    <header className="sticky top-0 left-0 w-full h-16 bg-[#002f46] px-3 text-white border-b border-gray-100 flex justify-between items-center shadow-xl z-50 py-4.5">
       <div className="flex items-center gap-4">
         <button
           onClick={onSidebarToggle}

@@ -35,7 +35,7 @@ const Signup = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(SignupSchema),
-    mode: "onBlur",
+    mode: "onChange",
   });
   const onSubmit = async (data) => {
     setLoading(true);
@@ -58,11 +58,11 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <div className="bg-white m-auto max-w-lg py-6 px-10 rounded-2xl shadow-lg">
-        <div className="mb-6 text-center">
-          <h2 className="text-2xl font-bold">Create an account</h2>
-          <p className="text-gray-500">
+    <div className="min-h-screen flex items-center justify-center py-3 min-w-screen">
+      <div className="bg-white m-auto w-full md:w-md lg:w-[700px] py-6 px-10 rounded-2xl shadow-lg">
+        <div className="mb-6 text-start">
+          <h2 className="text-xl font-semibold">Create an account</h2>
+          <p className="text-gray-500 text-sm">
             Register to continue with Ever Trust Forex Trading
           </p>
         </div>
@@ -70,40 +70,55 @@ const Signup = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
+              <label className="block text-sm font-normal text-gray-700 mb-1">
+                First Name
+              </label>
               <input
                 {...register("firstName")}
                 placeholder="First Name"
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.firstName?.message}
               </p>
             </div>
+
             <div>
+              <label className="block text-sm font-normal text-gray-700 mb-1">
+                Last Name
+              </label>
               <input
                 {...register("lastName")}
                 placeholder="Last Name"
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.lastName?.message}
               </p>
             </div>
+
             <div>
+              <label className="block text-sm font-normal text-gray-700 mb-1">
+                Email Address
+              </label>
               <input
                 {...register("email")}
                 type="email"
                 placeholder="Email Address"
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.email?.message}
               </p>
             </div>
+
             <div>
+              <label className="block text-sm font-normal text-gray-700 mb-1">
+                Country
+              </label>
               <select
                 {...register("country")}
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
               >
                 <option value="">Select Country</option>
                 {countries.map((country, idx) => (
@@ -116,30 +131,42 @@ const Signup = () => {
                 {errors.country?.message}
               </p>
             </div>
+
             <div>
+              <label className="block text-sm font-normal text-gray-700 mb-1">
+                Referral Code
+              </label>
               <input
                 {...register("refer_code")}
                 placeholder="Referral Code"
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
               />
             </div>
+
             <div>
+              <label className="block text-sm font-normal text-gray-700 mb-1">
+                Password
+              </label>
               <input
                 {...register("password")}
                 type="password"
                 placeholder="Password"
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.password?.message}
               </p>
             </div>
+
             <div className="md:col-span-2">
+              <label className="block text-sm font-normal text-gray-700 mb-1">
+                Confirm Password
+              </label>
               <input
                 {...register("confirmPassword")}
                 type="password"
                 placeholder="Confirm Password"
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.confirmPassword?.message}
@@ -165,14 +192,15 @@ const Signup = () => {
             </span>
           </div>
           <p className="text-sm text-red-500 mt-1">{errors.agree?.message}</p>
+
           <button
             type="submit"
             className="w-full mt-6 text-white py-3 rounded-md 
-             bg-gradient-to-r from-rose-400 to-cyan-500 
-             hover:from-rose-400 hover:to-rose-400
-             transition-all duration-700 ease-in-out shadow-md text-lg font-semibold"
+     bg-gradient-to-r from-rose-400 to-cyan-500 
+     hover:from-rose-400 hover:to-rose-400
+     transition-all duration-700 ease-in-out shadow-md text-md font-semibold"
           >
-            CREATE ACCOUNT
+            Create Account
           </button>
 
           <p className="text-center text-sm mt-4">

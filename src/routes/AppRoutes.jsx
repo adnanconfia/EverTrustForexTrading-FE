@@ -13,6 +13,10 @@ import UserDashboard from "../pages/user/UserDashboard";
 import AdminLayout from "../pages/admin/AdminLayout";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import UnProtectedRoutes from "./UnProtectedRoutes";
+import ForgetPassword from "../auth/ForgetPassword";
+import NotFound from "../components/NotFound";
+import PasswordRecoverry from "../auth/PasswordRecoverry";
+import AllSchema from "../pages/user/AllSchema";
 
 const AppRoutes = () => {
   const { loading } = useLoading();
@@ -27,14 +31,14 @@ const AppRoutes = () => {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundColor: "rgba(255,255,255,0.9)",
+            backgroundColor: "rgba(255,255,255,0.7)",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             zIndex: 9999,
           }}
         >
-          <RiseLoader color="#22bc97" />
+          <RiseLoader color="#f43f5e" />
         </div>
       )}
 
@@ -55,6 +59,11 @@ const AppRoutes = () => {
             </UnProtectedRoutes>
           }
         />
+        <Route
+          path="/forgot-password"
+          element={<ForgetPassword></ForgetPassword>}
+        />
+        <Route path="/reset-password/:token" element={<PasswordRecoverry />} />
 
         <Route
           path="/user"
@@ -65,6 +74,7 @@ const AppRoutes = () => {
           }
         >
           <Route path="dashboard" element={<UserDashboard />} />
+          <Route path="schemas" element={<AllSchema />} />
         </Route>
 
         <Route
@@ -79,6 +89,7 @@ const AppRoutes = () => {
         </Route>
 
         <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

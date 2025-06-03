@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { FaArrowRightFromBracket } from "react-icons/fa6";
-import { FaTimes } from "react-icons/fa";
+import { FaArrowRightFromBracket, FaWallet } from "react-icons/fa6";
+import { FaTimes, FaUniversity } from "react-icons/fa";
 import { useAuth } from "../context/authContext";
 
 const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
@@ -37,25 +37,79 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
           },
         ]
       : [
-          { label: "Dashboard", path: "/user/dashboard", icon: "pi pi-home" },
-          { label: "Profile", path: "/user/profile", icon: "pi pi-user" },
           {
-            label: "My Withdraws",
-            path: "/user/withdraws",
-            icon: "pi pi-download",
+            label: "Dashboard",
+            icon: "pi pi-th-large",
+            path: "/user/dashboard",
           },
           {
-            label: "My Deposits",
-            path: "/user/deposits",
-            icon: "pi pi-upload",
+            label: "All Schema",
+            icon: "pi pi-check-square",
+            path: "/user/schemas",
           },
-          { label: "My Team", path: "/user/team", icon: "pi pi-users" },
+          {
+            label: "Schema Logs",
+            icon: "pi pi-copy",
+            path: "/user/schema-logs",
+          },
+          {
+            label: "All Transactions",
+            icon: "pi pi-credit-card",
+            path: "/user/transactions",
+          },
+          {
+            label: "Add Money",
+            icon: "pi pi-money-bill",
+            path: "/user/add-money",
+          },
+          {
+            label: "Add Money Log",
+            icon: "pi pi-file-plus",
+            path: "/user/add-money-log",
+          },
+          {
+            label: "Wallet Exchange",
+            icon: "pi pi-sync",
+            path: "/user/wallet-exchange",
+          },
+          { label: "Send Money", icon: "pi pi-send", path: "/user/send-money" },
+          {
+            label: "Send Money Log",
+            icon: "pi pi-file-export",
+            path: "/user/send-money-log",
+          },
+          {
+            label: "Withdraw",
+            icon: "pi pi-building-columns",
+            path: "/user/withdraw",
+          },
+          {
+            label: "Withdraw Log",
+            icon: "pi pi-credit-card",
+            path: "/user/withdraw-log",
+          },
+          {
+            label: "Ranking Badge",
+            icon: "pi pi-star",
+            path: "/user/ranking-badge",
+          },
+          { label: "Referral", icon: "pi pi-users", path: "/user/referral" },
+          { label: "Settings", icon: "pi pi-cog", path: "/user/settings" },
+          {
+            label: "Support Tickets",
+            icon: "pi pi-wrench",
+            path: "/user/support-tickets",
+          },
+          {
+            label: "Notifications",
+            icon: "pi pi-bell",
+            path: "/user/notifications",
+          },
         ];
 
-  // Sidebar content
   const menuContent = (
     <>
-      <div className="text-white text-center border-b border-white h-16 flex items-center justify-center relative">
+      <div className="text-white text-center border-b border-white h-16 flex items-center justify-center relative py-4.5">
         <p className="text-3xl font-semibold">Logo</p>
         {!isLargeScreen && (
           <button
@@ -67,28 +121,63 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
           </button>
         )}
       </div>
-      <ul className="space-y-2 px-4 pt-4">
-        {menuItems.map((item) => (
-          <li key={item.path}>
-            <NavLink
-              to={item.path}
-              className={({ isActive }) =>
-                `relative flex items-center  px-3 py-2 rounded-lg overflow-hidden group transition-all duration-500 ease-in-out ${
-                  isActive
-                    ? "bg-rose-400 font-semibold text-white"
-                    : "text-white"
-                }`
-              }
-              onClick={() => !isLargeScreen && onClose()}
-            >
-              <span className="absolute inset-0 bg-rose-400 z-0 transition-transform transform scale-x-0  origin-left group-hover:scale-x-100 rounded-lg duration-500"></span>
-              <i className={`${item.icon} z-10 group-hover:text-white`} />
-              <span className="z-10 group-hover:text-white">{item.label}</span>
-            </NavLink>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-auto px-4 py-4">
+
+      {/* Fixed Account Balance section */}
+      <div className="bg-rose-400 text-white p-4 rounded-md shadow-md sticky top-0 z-20 mt-4 mx-4">
+        <div className="flex justify-between items-start">
+          <h3 className="text-lg font-bold">Account Balance</h3>
+          <span className="bg-white text-orange-600 text-xs font-semibold px-2 py-1 rounded">
+            WALLET
+          </span>
+        </div>
+
+        <div className="mt-4 space-y-3">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <FaWallet className="text-white text-lg" />
+              <span>Main Wallet</span>
+            </div>
+            <span className="font-bold">$0.00</span>
+          </div>
+
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <FaUniversity className="text-white text-lg" />
+              <span>Profit Wallet</span>
+            </div>
+            <span className="font-bold">$0.00</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Scrollable menu items */}
+      <div className="flex-1 overflow-y-auto no-scrollbar mt-4 px-4">
+        <ul className="space-y-2">
+          {menuItems.map((item) => (
+            <li key={item.path}>
+              <NavLink
+                to={item.path}
+                className={({ isActive }) =>
+                  `relative flex items-center gap-2 px-3 py-2 rounded-lg overflow-hidden group transition-all duration-500 ease-in-out ${
+                    isActive
+                      ? "bg-rose-400 font-semibold text-white"
+                      : "text-white"
+                  }`
+                }
+                onClick={() => !isLargeScreen && onClose()}
+              >
+                <span className="absolute inset-0 bg-rose-400 z-0 transition-transform transform scale-x-0 origin-left group-hover:scale-x-100 rounded-lg duration-500"></span>
+                <i className={`${item.icon} z-10 group-hover:text-white`} />
+                <span className="z-10 group-hover:text-white">
+                  {item.label}
+                </span>
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="px-4 py-4">
         <button
           onClick={handleLogout}
           className="relative group w-full text-left cursor-pointer px-3 py-2 rounded-lg flex justify-between items-center text-rose-500 overflow-hidden hover:text-white"
@@ -102,13 +191,12 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
   );
 
   if (isLargeScreen) {
-    // Permanent sidebar for large screen
     return (
       <nav
-        className={`bg-[#002f46] text-white h-full overflow-y-auto transition-width duration-300 shadow-xl w-64 flex-shrink-0 flex flex-col`}
+        className="bg-[#002f46] text-white h-full shadow-xl w-80 flex-shrink-0 flex flex-col"
         style={{
-          width: visible ? 256 : 0,
-          overflow: visible ? "auto" : "hidden",
+          width: visible ? 350 : 0,
+          overflow: visible ? "hidden" : "hidden", // prevent scroll bleed
         }}
       >
         {visible && menuContent}
@@ -116,13 +204,11 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
     );
   }
 
-  // Mobile sidebar with overlay
   return (
     <>
-      {/* Overlay */}
       <div
         onClick={onClose}
-        className={`fixed inset-0 bg-black bg-opacity-50 z-30 transition-opacity ${
+        className={`fixed inset-0  bg-opacity-50 z-30 transition-opacity ${
           visible
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -130,9 +216,9 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
         aria-hidden={!visible}
       />
       <nav
-        className={`fixed top-0 left-0 bottom-0 bg-[#002f46] text-black w-64 z-40 shadow-xl transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 bottom-0 bg-[#002f46] text-black w-70 z-40 shadow-xl transform transition-transform duration-300 ${
           visible ? "translate-x-0" : "-translate-x-full"
-        }`}
+        } flex flex-col no-scrollbar overflow-y-auto`}
       >
         {menuContent}
       </nav>
