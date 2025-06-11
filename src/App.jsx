@@ -9,6 +9,8 @@ import { AuthProvider } from "./context/authContext";
 import TokenVerifier from "./components/TokenVerifier";
 import { PrimeReactProvider } from "primereact/api";
 
+// import "primereact/resources/themes/lara-dark-cyan/theme.css"; // or another theme
+// import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
 export default function App() {
@@ -16,25 +18,25 @@ export default function App() {
     <div className="min-h-screen w-full overflow-x-hidden overflow-y-auto">
       <BrowserRouter>
         <AuthProvider>
-          <TokenVerifier />
+          {/* <TokenVerifier /> */}
           <LoaderProvider>
-            {/* <UserProvider> */}
-            <PrimeReactProvider>
-              <AppRoutes />
-              <ToastContainer
-                position="top-center"
-                autoClose={4000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="light"
-              />
-              {/* </UserProvider> */}
-            </PrimeReactProvider>
+            <UserProvider>
+              <PrimeReactProvider>
+                <AppRoutes />
+                <ToastContainer
+                  position="top-center"
+                  autoClose={4000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="light"
+                />
+              </PrimeReactProvider>
+            </UserProvider>
           </LoaderProvider>
         </AuthProvider>
       </BrowserRouter>

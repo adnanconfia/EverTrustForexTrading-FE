@@ -1,5 +1,7 @@
 import React from "react";
 import CustomTable from "../../components/CustomTable";
+import { useUsers } from "../../context/UserContext";
+import { CLIENT_URL } from "../../config";
 
 const UserDashboard = () => {
   const columns = [
@@ -12,6 +14,10 @@ const UserDashboard = () => {
     { key: "status", label: "Status" },
     { key: "gateway", label: "Gateway" },
   ];
+  const { users } = useUsers() || {};
+
+  const currentUser = users?.[0];
+  console.log("Current User:", currentUser);
   return (
     <div className="flex flex-col   w-full overflow-hidden text-white">
       <div className="flex flex-col md:flex-row   gap-4 w-full h-fit md:h-[170px]">
@@ -33,14 +39,14 @@ const UserDashboard = () => {
             <input
               type="text"
               readOnly
-              value="https://yourdomain.com/referral/abc123"
+              value={CLIENT_URL + currentUser?.refer_code}
               className="w-full bg-[#001f33] text-white px-4 py-2 rounded-md border border-cyan-600 focus:outline-none"
             />
             <button
               type="button"
               onClick={() => {
                 navigator.clipboard.writeText(
-                  "https://yourdomain.com/referral/abc123"
+                  CLIENT_URL + currentUser?.refer_code
                 );
               }}
               className="bg-rose-400 hover:bg-rose-500 text-white px-4 py-2 rounded-md"

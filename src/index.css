@@ -1,4 +1,7 @@
+/* @import 'flowbite'; */
 @import "tailwindcss";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -7,8 +10,6 @@
 
   background-color: #2d495a;
 }
-
-
 
 body {
   /* margin: 0;
@@ -23,16 +24,114 @@ h1 {
   line-height: 1.1;
 }
 
-
-button{
+button {
   cursor: pointer;
 }
 /* e.g. src/index.css or App.css */
 .no-scrollbar {
   overflow-y: auto;
-  -ms-overflow-style: none;  /* IE & Edge */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none; /* IE & Edge */
+  scrollbar-width: none; /* Firefox */
 }
 .no-scrollbar::-webkit-scrollbar {
-  display: none;             /* Chrome, Safari, Opera */
+  display: none; /* Chrome, Safari, Opera */
+}
+/* custom-tree.css */
+
+/* inputs */
+.p-dropdown,
+.p-calendar-w-btn-right .p-inputtext {
+  background-color: #2d495a;
+  border: #22d3ee 1px solid;
+}
+.p-calendar-w-btn-right .p-datepicker-trigger {
+  display: none !important;
+}
+.p-calendar-w-btn-right .p-inputtext {
+  border-radius: 0.375rem;
+  padding: 0.5rem;
+}
+/* .p-dropdown,
+.p-datepicker-grounp-container{
+  border-radius: 0.375rem !important;
+  padding: 0.5rem !important;
+  color: #fff !important;
+} */
+/* Custom popup style matching PrimeNG theme look */
+/* :global(.p-datepicker) {
+  background-color: #2d495a !important;
+  border: 1px solid #22d3ee !important; 
+  border-radius: 0.5rem !important;
+  box-shadow: 0 5px 15px rgba(0, 255, 255, 0.15);
+  color: white !important;
+}
+
+:global(.p-datepicker-header) {
+  padding: 1rem 0 !important;
+  margin: 0 1rem !important;
+  color: #fff !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+:global(.p-datepicker-calendar-container) {
+  padding: 0.5rem !important;
+  color: #fff !important;
+}
+
+:global(.p-datepicker td > span) {
+  color: white !important;
+  border-radius: 0.375rem !important;
+}
+
+:global(.p-datepicker td > span:hover) {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+:global(.p-datepicker td.p-datepicker-today > span) {
+  background-color: #22d3ee !important;
+  color: black !important;
+}
+
+:global(.p-monthpicker),
+:global(.p-yearpicker) {
+  padding: 0.5rem !important;
+  color: #fff !important;
+} */
+
+/* .p-datepicker .p-datepicker-header {
+    padding: 0.5rem;
+    color: rgba(255, 255, 255, 0.87);
+    background: #1f2937;
+    font-weight: 700;
+    margin: 0;
+    border-bottom: 1px solid #424b57;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+}
+
+.p-datepicker .p-yearpicker {
+    margin: 0.5rem 0;
+} */
+/* Example in a CSS module or <style jsx> block */
+.p-calendar .p-datepicker {
+  background-color: #2d495a;
+  border: 1px solid #06b6d4; /* cyan-400 */
+  border-radius: 0.375rem; /* rounded-md */
+  color: white;
+}
+
+.p-calendar .p-datepicker td > span {
+  background-color: transparent;
+  color: white;
+}
+
+.p-calendar .p-datepicker td > span:hover {
+  background-color: #06b6d4;
+  color: black;
+}
+.p-dialog-header {
+  padding: 2rem 2rem 0 2rem;
+}
+.p-dialog-content {
+  padding: 1rem 2rem 2rem 2rem;
 }

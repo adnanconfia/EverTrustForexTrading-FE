@@ -58,14 +58,9 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
             path: "/user/transactions",
           },
           {
-            label: "Add Money",
+            label: "Deposits",
             icon: "pi pi-money-bill",
-            path: "/user/add-money",
-          },
-          {
-            label: "Add Money Log",
-            icon: "pi pi-file-plus",
-            path: "/user/add-money-log",
+            path: "/user/deposits",
           },
           {
             label: "Wallet Exchange",
@@ -81,12 +76,7 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
           {
             label: "Withdraw",
             icon: "pi pi-building-columns",
-            path: "/user/withdraw",
-          },
-          {
-            label: "Withdraw Log",
-            icon: "pi pi-credit-card",
-            path: "/user/withdraw-log",
+            path: "/user/withdraws",
           },
           {
             label: "Ranking Badge",
@@ -114,7 +104,7 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
         {!isLargeScreen && (
           <button
             onClick={onClose}
-            className="absolute right-3 top-3 text-white hover:text-gray-300"
+            className="absolute right-3 top-3 text-white"
             aria-label="Close sidebar"
           >
             <FaTimes size={20} />
@@ -122,7 +112,7 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
         )}
       </div>
 
-      {/* Fixed Account Balance section */}
+      {/* Account Balance Section */}
       <div className="bg-rose-400 text-white p-4 rounded-md shadow-md sticky top-0 z-20 mt-4 mx-4">
         <div className="flex justify-between items-start">
           <h3 className="text-lg font-bold">Account Balance</h3>
@@ -150,7 +140,7 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
         </div>
       </div>
 
-      {/* Scrollable menu items */}
+      {/* Menu Items */}
       <div className="flex-1 overflow-y-auto no-scrollbar mt-4 px-4">
         <ul className="space-y-2">
           {menuItems.map((item) => (
@@ -158,45 +148,41 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
-                  `relative flex items-center gap-2 px-3 py-2 rounded-lg overflow-hidden group transition-all duration-500 ease-in-out ${
-                    isActive
-                      ? "bg-rose-400 font-semibold text-white"
-                      : "text-white"
+                  `flex items-center gap-2 px-3 py-2 rounded-lg transition-colors duration-300 text-white ${
+                    isActive ? "bg-rose-400" : "hover:bg-rose-400"
                   }`
                 }
                 onClick={() => !isLargeScreen && onClose()}
               >
-                <span className="absolute inset-0 bg-rose-400 z-0 transition-transform transform scale-x-0 origin-left group-hover:scale-x-100 rounded-lg duration-500"></span>
-                <i className={`${item.icon} z-10 group-hover:text-white`} />
-                <span className="z-10 group-hover:text-white">
-                  {item.label}
-                </span>
+                <i className={item.icon} />
+                <span>{item.label}</span>
               </NavLink>
             </li>
           ))}
         </ul>
       </div>
 
+      {/* Logout */}
       <div className="px-4 py-4">
         <button
           onClick={handleLogout}
-          className="relative group w-full text-left cursor-pointer px-3 py-2 rounded-lg flex justify-between items-center text-rose-500 overflow-hidden hover:text-white"
+          className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-rose-500 hover:bg-rose-400 hover:text-white transition-colors duration-300"
         >
-          <span className="absolute inset-0 bg-rose-400 z-0 transform scale-x-0 rounded-lg origin-left transition-transform duration-500 group-hover:scale-x-100"></span>
-          <span className="z-10">Logout</span>
-          <FaArrowRightFromBracket className="z-10" />
+          <span>Logout</span>
+          <FaArrowRightFromBracket />
         </button>
       </div>
     </>
   );
 
+  // Large screen sidebar
   if (isLargeScreen) {
     return (
       <nav
-        className="bg-[#002f46] text-white h-full shadow-xl w-80 flex-shrink-0 flex flex-col"
+        className="bg-[#002f46] text-white h-full shadow-xl flex-shrink-0 flex flex-col"
         style={{
           width: visible ? 350 : 0,
-          overflow: visible ? "hidden" : "hidden", // prevent scroll bleed
+          overflow: visible ? "hidden" : "hidden",
         }}
       >
         {visible && menuContent}
@@ -204,11 +190,12 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
     );
   }
 
+  // Mobile sidebar
   return (
     <>
       <div
         onClick={onClose}
-        className={`fixed inset-0  bg-opacity-50 z-30 transition-opacity ${
+        className={`fixed inset-0 bg-opacity-50 z-30 transition-opacity ${
           visible
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -216,7 +203,7 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
         aria-hidden={!visible}
       />
       <nav
-        className={`fixed top-0 left-0 bottom-0 bg-[#002f46] text-black w-70 z-40 shadow-xl transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 bottom-0 bg-[#002f46] w-70 z-40 shadow-xl transform transition-transform duration-300 ${
           visible ? "translate-x-0" : "-translate-x-full"
         } flex flex-col no-scrollbar overflow-y-auto`}
       >

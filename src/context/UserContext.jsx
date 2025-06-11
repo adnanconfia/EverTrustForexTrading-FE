@@ -26,6 +26,7 @@ export const UserProvider = ({ children }) => {
         city: user.city ?? null,
         zip_code: user.zip_code ?? null,
         country: user.country ?? null,
+        refer_code: user.refer_code ?? null,
       }));
 
       setUsers(formatted);

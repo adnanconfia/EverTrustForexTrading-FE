@@ -193,15 +193,7 @@ const Signup = () => {
           </div>
           <p className="text-sm text-red-500 mt-1">{errors.agree?.message}</p>
 
-          <button
-            type="submit"
-            className="w-full mt-6 text-white py-3 rounded-md 
-     bg-gradient-to-r from-rose-400 to-cyan-500 
-     hover:from-rose-400 hover:to-rose-400
-     transition-all duration-700 ease-in-out shadow-md text-md font-semibold"
-          >
-            Create Account
-          </button>
+          <GradientButton type="submit">Create Account</GradientButton>
 
           <p className="text-center text-sm mt-4">
             Already have an account?{" "}

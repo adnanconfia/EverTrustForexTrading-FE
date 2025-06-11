@@ -7,6 +7,7 @@ import { login } from "../services/authService";
 import { useAuth } from "../context/authContext";
 import { useLoading } from "../context/LoaderContext";
 import { toast } from "react-toastify";
+import GradientButton from "../components/GradientButton";
 const loginSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address")
@@ -84,10 +85,24 @@ const Login = () => {
             </div>
             <div className="mt-4">
               <div className="flex items-center justify-between text-sm text-gray-600">
-                <label className="flex items-center gap-2">
+                {/* <label className="flex items-center gap-2">
                   <input type="checkbox" className="accent-cyan-400 w-5 h-5" />
                   Remember me
-                </label>
+                </label> */}
+                <div>
+                  <input
+                    id="default-checkbox"
+                    type="checkbox"
+                    value=""
+                    className="w-4 h-4 text-cyan-400 bg-gray-100 border-gray-300 rounded-sm focus:ring-cyan-500 dark:focus:ring-cyan-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  ></input>
+                  <label
+                    htmlFor="default-checkbox"
+                    className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                  >
+                    Remember me
+                  </label>
+                </div>
                 <a
                   href="/forgot-password"
                   className="text-black font-semibold hover:underline"
@@ -96,15 +111,7 @@ const Login = () => {
                 </a>
               </div>
             </div>
-            <button
-              type="submit"
-              className="w-full mt-6 text-white py-3 rounded-md 
-             bg-gradient-to-r from-rose-400 to-cyan-500 
-             hover:from-rose-400 hover:to-rose-400
-             transition-all duration-700 ease-in-out shadow-md text-md font-semibold"
-            >
-              Account Login
-            </button>
+            <GradientButton type="submit">Account Login</GradientButton>
           </form>
           <div className="mt-6">
             <p>

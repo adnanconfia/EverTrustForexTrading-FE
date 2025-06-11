@@ -50,3 +50,19 @@ export const resetPassword = async (payload) => {
     );
   }
 };
+
+export const logout = () => {
+  localStorage.clear();
+  window.location.href = "/login";
+};
+
+export const changePassword = async (payload) => {
+  try {
+    const response = await axiosInstance.put("/change-password/", payload);
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.detail || "Error occurred while changing password"
+    );
+  }
+};

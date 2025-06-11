@@ -1,7 +1,24 @@
 import { FaArrowLeft, FaBars, FaBell, FaUser } from "react-icons/fa";
 import { FiSun } from "react-icons/fi";
+import {
+  Dropdown,
+  DropdownHeader,
+  DropdownItem,
+  DropdownDivider,
+} from "flowbite-react";
+
+import { HiCog, HiLogout } from "react-icons/hi";
+import { useUsers } from "../context/UserContext";
+import { BiLock, BiSupport } from "react-icons/bi";
+import { logout } from "../services/authService";
+import { useNavigate } from "react-router-dom";
 
 const GlobalHeader = ({ onSidebarToggle, sidebarVisible }) => {
+  const navigate = useNavigate();
+  const { users } = useUsers() || {};
+
+  const currentUser = users?.[0];
+
   return (
     <header className="sticky top-0 left-0 w-full h-16 bg-[#002f46] px-3 text-white border-b border-gray-100 flex justify-between items-center shadow-xl z-50 py-4.5">
       <div className="flex items-center gap-4">
@@ -29,9 +46,51 @@ const GlobalHeader = ({ onSidebarToggle, sidebarVisible }) => {
           <option value="es">Español</option>
         </select>
 
-        <div className="bg-rose-400 p-2 rounded cursor-pointer hover:bg-rose-500">
-          <FaUser size={14} />
-        </div>
+        <Dropdown
+          label={
+            <div className="bg-rose-400 p-2 rounded cursor-pointer hover:bg-rose-500">
+              <FaUser size={14} />
+            </div>
+          }
+          inline
+          arrowIcon={false}
+        >
+          <DropdownHeader>
+            <span className="block text-sm">{currentUser?.first_name}</span>
+            <span className="block truncate text-sm font-medium">
+              {currentUser?.email}
+            </span>
+          </DropdownHeader>
+          <DropdownItem
+            icon={HiCog}
+            className="hover:bg-rose-400 focus:bg-rose-400 hover:text-white focus:text-white"
+            onClick={() => navigate("settings")}
+          >
+            Settings
+          </DropdownItem>
+          <DropdownItem
+            icon={BiLock}
+            className="hover:bg-rose-400 focus:bg-rose-400 hover:text-white focus:text-white"
+            onClick={() => navigate("change-password")}
+          >
+            Change Password
+          </DropdownItem>
+          <DropdownItem
+            icon={BiSupport}
+            className="hover:bg-rose-400 focus:bg-rose-400 hover:text-white focus:text-white"
+            onClick={() => navigate("support-tickets")}
+          >
+            Support Tickets
+          </DropdownItem>
+          <DropdownDivider />
+          <DropdownItem
+            icon={HiLogout}
+            className="hover:bg-rose-400 focus:bg-rose-400 hover:text-white focus:text-white"
+            onClick={() => logout()}
+          >
+            Sign out
+          </DropdownItem>
+        </Dropdown>
       </div>
     </header>
   );

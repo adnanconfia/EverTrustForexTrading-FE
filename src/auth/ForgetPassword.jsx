@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { useLoading } from "../context/LoaderContext";
+import GradientButton from "../components/GradientButton";
 
 const forgetPasswordSchema = Yup.object().shape({
   email: Yup.string()
@@ -61,15 +62,8 @@ const ForgetPassword = () => {
               </p>
             </div>
 
-            <button
-              type="submit"
-              className="w-full mt-6 text-white py-3 rounded-md 
-             bg-gradient-to-r from-rose-400 to-cyan-500 
-             hover:from-rose-400 hover:to-rose-400
-             transition-all duration-700 ease-in-out shadow-md text-md font-semibold"
-            >
-              Reset Password
-            </button>
+            <GradientButton type="submit">Reset Password</GradientButton>
+
             <p className="text-center text-sm mt-4">
               Back to login page?{" "}
               <a href="/login" className="text-pink-600 font-semibold">

@@ -6,6 +6,7 @@ import { useLoading } from "../context/LoaderContext";
 import { toast } from "react-toastify";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { resetPassword } from "../services/authService";
+import GradientButton from "../components/GradientButton";
 const recoverySchema = Yup.object().shape({
   password: Yup.string()
     .min(6, "Password must be at least 6 characters")
@@ -90,15 +91,7 @@ const PasswordRecoverry = () => {
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="w-full mt-6 text-white py-3 rounded-md 
-         bg-gradient-to-r from-rose-400 to-cyan-500 
-         hover:from-rose-400 hover:to-rose-400
-         transition-all duration-700 ease-in-out shadow-md text-md font-semibold"
-          >
-            Reset Password
-          </button>
+          <GradientButton type="submit">Reset Password</GradientButton>
         </form>
       </div>
     </div>

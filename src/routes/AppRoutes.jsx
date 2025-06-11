@@ -17,6 +17,18 @@ import ForgetPassword from "../auth/ForgetPassword";
 import NotFound from "../components/NotFound";
 import PasswordRecoverry from "../auth/PasswordRecoverry";
 import AllSchema from "../pages/user/AllSchema";
+import SchemaLogs from "../pages/user/SchemaLogs";
+import AllTransaction from "../pages/user/AllTransaction";
+import AddMoney from "../pages/user/AddMoney";
+import MoneyLog from "../pages/user/MoneyLog";
+import Deposits from "../pages/user/Deposits";
+import Withdraws from "../pages/user/Withdraw";
+import RankingBadge from "../pages/user/RankingBadge";
+import Referral from "../pages/user/Referral";
+import ProfileSetting from "../pages/user/ProfileSetting";
+import SupportTicket from "../pages/user/SupportTicket";
+import Notification from "../pages/user/Notification";
+import ChangePassword from "../pages/user/ChangePassword";
 
 const AppRoutes = () => {
   const { loading } = useLoading();
@@ -75,6 +87,18 @@ const AppRoutes = () => {
         >
           <Route path="dashboard" element={<UserDashboard />} />
           <Route path="schemas" element={<AllSchema />} />
+          <Route path="schema-logs" element={<SchemaLogs />} />
+          <Route path="transactions" element={<AllTransaction />} />
+          <Route path="deposits" element={<Deposits />} />
+          <Route path="withdraws" element={<Withdraws />} />
+          <Route path="ranking-badge" element={<RankingBadge />} />
+          <Route path="referral" element={<Referral />} />
+          <Route path="settings" element={<ProfileSetting />} />
+          <Route path="support-tickets" element={<SupportTicket />} />
+          <Route path="notifications" element={<Notification />} />
+          <Route path="change-password" element={<ChangePassword />} />
+          {/* <Route path="deposit" element={<AddMoney />} /> */}
+          {/* <Route path="deposit-log" element={<MoneyLog />} /> */}
         </Route>
 
         <Route
