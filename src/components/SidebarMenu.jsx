@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FaArrowRightFromBracket, FaWallet } from "react-icons/fa6";
 import { FaTimes, FaUniversity } from "react-icons/fa";
 import { useAuth } from "../context/authContext";
+import { FiFilePlus } from "react-icons/fi";
 
 const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
   const navigate = useNavigate();
@@ -138,6 +139,11 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
             <span className="font-bold">$0.00</span>
           </div>
         </div>
+      </div>
+
+      <div className=" flex justify-between items-center mt-1.5 gap-2 mx-4">
+        <button className="bg-blue-500 w-full px-4 py-3 rounded-sm border-0 hover:bg-rose-400 flex items-center justify-center"><FiFilePlus /><span className="ms-2">Add</span> </button>
+        <button className="bg-green-400 w-full px-4 py-3 rounded-sm border-0 hover:bg-rose-400 flex items-center justify-center"><FaArrowRightFromBracket /><span className="ms-2">Invest now </span></button>
       </div>
 
       {/* Menu Items */}

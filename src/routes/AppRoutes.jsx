@@ -29,6 +29,7 @@ import ProfileSetting from "../pages/user/ProfileSetting";
 import SupportTicket from "../pages/user/SupportTicket";
 import Notification from "../pages/user/Notification";
 import ChangePassword from "../pages/user/ChangePassword";
+import { WalletExchange } from "../pages/user/WalletExchange";
 
 const AppRoutes = () => {
   const { loading } = useLoading();
@@ -97,6 +98,7 @@ const AppRoutes = () => {
           <Route path="support-tickets" element={<SupportTicket />} />
           <Route path="notifications" element={<Notification />} />
           <Route path="change-password" element={<ChangePassword />} />
+          <Route path="wallet-exchange" element={<WalletExchange/>}/>
           {/* <Route path="deposit" element={<AddMoney />} /> */}
           {/* <Route path="deposit-log" element={<MoneyLog />} /> */}
         </Route>
