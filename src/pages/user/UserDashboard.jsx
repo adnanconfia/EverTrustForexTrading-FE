@@ -37,8 +37,8 @@ const UserDashboard = () => {
           getTransctionStats(),
         ]);
 
-        console.log("✅ Fetched Deposits:", depositsData);
-        console.log("📊 Fetched Transaction Stats:", transactionStats);
+        // console.log("✅ Fetched Deposits:", depositsData);
+        // console.log("📊 Fetched Transaction Stats:", transactionStats);
 
         setDeposits(depositsData); // store deposits in state
         setStatsData(transactionStats);
@@ -54,7 +54,7 @@ const UserDashboard = () => {
   }, []);
 
   const currentUser = users?.[0];
-  console.log("Current User:", currentUser);
+  // console.log("Current User:", currentUser);
   return (
     <div className="flex flex-col   w-full overflow-hidden text-white">
       <div className="flex flex-col md:flex-row   gap-4 w-full h-fit md:h-[170px]">
