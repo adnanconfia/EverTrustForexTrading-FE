@@ -1,21 +1,57 @@
-import React from "react";
+import React, { use, useEffect, useState } from "react";
 import CustomTable from "../../components/CustomTable";
 import { useUsers } from "../../context/UserContext";
 import { CLIENT_URL } from "../../config";
+import {
+  getTransction,
+  getTransctionStats,
+} from "../../services/transactionService";
+import { PiFilePlus } from "react-icons/pi";
+
+import { useLoading } from "../../context/LoaderContext";
+import { toast } from "react-toastify";
 
 const UserDashboard = () => {
   const columns = [
     { key: "description", label: "Description", type: "string" },
     { key: "transaction_id", label: "Transaction ID", type: "string" },
-    { key: "is_email_verified", label: "Email Verified", type: "boolean" },
-    { key: "type", label: "Type", type: "string" },
+    { key: "history_type", label: "Type", type: "string" },
     { key: "amount", label: "Amount", type: "amount" },
     { key: "fee", label: "Fee", type: "amount" },
     { key: "status", label: "Status", type: "status" },
-    { key: "gateway", label: "Gateway", type: "string" },
   ];
 
   const { users } = useUsers() || {};
+  const [deposits, setDeposits] = useState([]);
+  const [statsData, setStatsData] = useState(null);
+
+  const { setLoading } = useLoading();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        // Call both APIs
+        const [depositsData, transactionStats] = await Promise.all([
+          getTransction(),
+          getTransctionStats(),
+        ]);
+
+        console.log("✅ Fetched Deposits:", depositsData);
+        console.log("📊 Fetched Transaction Stats:", transactionStats);
+
+        setDeposits(depositsData); // store deposits in state
+        setStatsData(transactionStats);
+        // Optionally: store statsData in a separate state if needed
+      } catch (error) {
+        toast.error(error.message || "Failed to load data");
+      } finally {
+        setLoading(false); // loader stops after both API calls finish
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const currentUser = users?.[0];
   console.log("Current User:", currentUser);
@@ -64,43 +100,96 @@ const UserDashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-4 w-full mt-5">
-        <div className="flex justify-center items-center w-full p-3  rounded-md bg-[#002f46] shadow-lg">
-          div 1
+        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
+          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
+            <PiFilePlus />
+          </div>
+          <div className="p-3">
+            <div className="text-2xl font-bold"> {statsData?.all_transaction_count}</div>
+            <div className="text-2xl">All Transaction</div>
+          </div>
         </div>
-        <div className="flex justify-center items-center w-full p-3  rounded-md   bg-[#002f46] shadow-lg">
-          div 2
+        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
+          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
+            <PiFilePlus />
+          </div>
+          <div className="p-3">
+            <div className="text-2xl font-bold"> {statsData?.ranked}</div>
+            <div className="text-2xl">Ranked</div>
+          </div>
         </div>
-        <div className="flex justify-center items-center w-full p-3  rounded-md   bg-[#002f46] shadow-lg">
-          div 3
+        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
+        
+          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
+            <PiFilePlus />
+          </div>
+          <div className="p-3">
+            <div className="text-2xl font-bold"> {statsData?.total_deposit}</div>
+            <div className="text-2xl">  Total Deposit </div>
+          </div>
         </div>
-        <div className="flex justify-center items-center w-full p-3  rounded-md   bg-[#002f46] shadow-lg">
-          div 4
+        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
+          
+          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
+            <PiFilePlus />
+          </div>
+          <div className="p-3">
+            <div className="text-2xl font-bold"> {statsData?.total_withdraw}</div>
+            <div className="text-2xl">Total Withdraw </div>
+          </div>
         </div>
-        <div className="flex justify-center items-center w-full p-3  rounded-md   bg-[#002f46] shadow-lg">
-          div 5
+        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
+         
+          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
+            <PiFilePlus />
+          </div>
+          <div className="p-3">
+            <div className="text-2xl font-bold">{statsData?.total_investment}</div>
+            <div className="text-2xl"> Total Investment </div>
+          </div>
         </div>
-        <div className="flex justify-center items-center w-full p-3  rounded-md   bg-[#002f46] shadow-lg">
-          div 6
+        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
+          
+          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
+            <PiFilePlus />
+          </div>
+          <div className="p-3">
+            <div className="text-2xl font-bold">{statsData?.total_profit}</div>
+            <div className="text-2xl">Total Profit </div>
+          </div>
         </div>
-        <div className="flex justify-center items-center w-full p-3  rounded-md   bg-[#002f46] shadow-lg">
-          div 7
+        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
+           
+          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
+            <PiFilePlus />
+          </div>
+          <div className="p-3">
+            <div className="text-2xl font-bold">{statsData?.referral_bonus}</div>
+            <div className="text-2xl">Referral Bonus</div>
+          </div>
         </div>
-        <div className="flex justify-center items-center w-full p-3  rounded-md   bg-[#002f46] shadow-lg">
-          div 8
+        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
+           
+          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
+            <PiFilePlus />
+          </div>
+          <div className="p-3">
+            <div className="text-2xl font-bold">{statsData?.total_tickets}</div>
+            <div className="text-2xl">Total Tickets</div>
+          </div>
         </div>
-        <div className="flex justify-center items-center w-full p-3  rounded-md   bg-[#002f46] shadow-lg">
-          div 9
-        </div>
-        <div className="flex justify-center items-center w-full p-3  rounded-md   bg-[#002f46] shadow-lg">
-          div 10
-        </div>
-        <div className="flex justify-center items-center w-full p-3  rounded-md   bg-[#002f46] shadow-lg">
-          div 11
-        </div>
-        <div className="flex justify-center items-center w-full p-3  rounded-md   bg-[#002f46] shadow-lg">
-          div 12
+        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
+           
+          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
+            <PiFilePlus />
+          </div>
+          <div className="p-3">
+            <div className="text-2xl font-bold">{statsData?.total_refers}</div>
+            <div className="text-2xl">Total Refers</div>
+          </div>
         </div>
       </div>
+
       <div className="flex-1 flex flex-col md:justify-between border rounded-lg bg-[#002f46] border-cyan-600 p-4 text-white mt-5">
         {/* Header */}
         <div className="border-b border-cyan-600 pb-2 mb-3">
@@ -108,7 +197,7 @@ const UserDashboard = () => {
         </div>
         <div className="overflow-x-auto">
           <CustomTable
-            data={[]}
+            data={deposits}
             columns={columns}
             actions={false}
           ></CustomTable>

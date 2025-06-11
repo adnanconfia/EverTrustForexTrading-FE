@@ -65,28 +65,7 @@ const Deposits = () => {
   const deposit_image = watch("deposit_image");
 
   // 🔁 Fetch payment methods on mount
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-
-        // Run both in parallel
-        const [methods, deposits] = await Promise.all([
-          paymentMethod(),
-          getAllDeposits(),
-        ]);
-
-        setPaymentMethods(methods);
-        setDeposits(deposits);
-      } catch (error) {
-        toast.error("Failed to fetch data");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [setLoading]);
+  
 
   // 🖼️ Update preview on file change
   useEffect(() => {
