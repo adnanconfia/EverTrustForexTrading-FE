@@ -142,8 +142,8 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
       </div>
 
       <div className=" flex justify-between items-center mt-1.5 gap-2 mx-4">
-        <button className="bg-blue-500 w-full px-4 py-3 rounded-sm border-0 hover:bg-rose-400 flex items-center justify-center"><FiFilePlus /><span className="ms-2">Add</span> </button>
-        <button className="bg-green-400 w-full px-4 py-3 rounded-sm border-0 hover:bg-rose-400 flex items-center justify-center"><FaArrowRightFromBracket /><span className="ms-2">Invest now </span></button>
+        <button className="bg-blue-500 w-full px-4 py-3 rounded-sm border-0 hover:bg-rose-400 flex items-center justify-center" onClick={()=>navigate('deposits')}><FiFilePlus /><span className="ms-2">Deposit</span> </button>
+        <button className="bg-green-400 w-full px-4 py-3 rounded-sm border-0 hover:bg-rose-400 flex items-center justify-center" onClick={()=>navigate('schemas')}><FaArrowRightFromBracket /><span className="ms-2">Invest now </span></button>
       </div>
 
       {/* Menu Items */}
