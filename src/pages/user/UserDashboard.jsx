@@ -5,15 +5,16 @@ import { CLIENT_URL } from "../../config";
 
 const UserDashboard = () => {
   const columns = [
-    { key: "description", label: "Description" },
-    { key: "transaction_id", label: "Tranaction ID" },
-    { key: "is_email_verified", label: "Email Verified" },
-    { key: "type", label: "Type" },
-    { key: "amount", label: "Amount" },
-    { key: "fee", label: "Fee" },
-    { key: "status", label: "Status" },
-    { key: "gateway", label: "Gateway" },
+    { key: "description", label: "Description", type: "string" },
+    { key: "transaction_id", label: "Transaction ID", type: "string" },
+    { key: "is_email_verified", label: "Email Verified", type: "boolean" },
+    { key: "type", label: "Type", type: "string" },
+    { key: "amount", label: "Amount", type: "amount" },
+    { key: "fee", label: "Fee", type: "amount" },
+    { key: "status", label: "Status", type: "status" },
+    { key: "gateway", label: "Gateway", type: "string" },
   ];
+
   const { users } = useUsers() || {};
 
   const currentUser = users?.[0];

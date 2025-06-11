@@ -166,9 +166,9 @@ const Referral = () => {
   }, []);
 
   const columns = [
-    { key: "transaction_id", label: "Transaction ID" },
-    { key: "amount", label: "Amount" },
-    { key: "status", label: "Status" },
+    { key: "transaction_id", label: "Transaction ID", type: "string" },
+    { key: "amount", label: "Amount", type: "amount" },
+    { key: "status", label: "Status", type: "status" },
   ];
 
   return (

@@ -3,14 +3,15 @@ import CustomTable from "../../components/CustomTable";
 
 const SchemaLogs = () => {
   const columns = [
-    { key: "icon", label: "Icon" },
-    { key: "schema", label: "Schema" },
-    { key: "roi", label: "ROI" },
-    { key: "profit", label: "Profit" },
-    { key: "period_remaining", label: "Period Remaining" },
-    { key: "capital_black", label: "Capital Black" },
-    { key: "timeline", label: "Time Line" },
+    { key: "icon", label: "Icon", type: "string" },
+    { key: "schema", label: "Schema", type: "string" },
+    { key: "roi", label: "ROI", type: "string" },
+    { key: "profit", label: "Profit", type: "amount" },
+    { key: "period_remaining", label: "Period Remaining", type: "string" },
+    { key: "capital_black", label: "Capital Black", type: "amount" },
+    { key: "timeline", label: "Time Line", type: "string" },
   ];
+
   return (
     <div className="flex-1 flex flex-col md:justify-between border rounded-lg bg-[#002f46] border-cyan-600 p-4 text-white mt-5">
       {/* Header */}

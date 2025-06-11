@@ -3,14 +3,15 @@ import CustomTable from "../../components/CustomTable";
 
 const AllTransaction = () => {
   const columns = [
-    { key: "description", label: "Description" },
-    { key: "transaction_id", label: "Transaction ID" },
-    { key: "type", label: "Type" },
-    { key: "amount", label: "Amount" },
-    { key: "fee", label: "Fee" },
-    { key: "status", label: "Status" },
-    { key: "method", label: "Method" },
+    { key: "description", label: "Description", type: "string" },
+    { key: "transaction_id", label: "Transaction ID", type: "string" },
+    { key: "type", label: "Type", type: "string" },
+    { key: "amount", label: "Amount", type: "amount" },
+    { key: "fee", label: "Fee", type: "amount" },
+    { key: "status", label: "Status", type: "status" },
+    { key: "method", label: "Transaction Method", type: "string" },
   ];
+
   return (
     <div className="flex-1 flex flex-col md:justify-between border rounded-lg bg-[#002f46] border-cyan-600 p-4 text-white mt-5">
       {/* Header */}

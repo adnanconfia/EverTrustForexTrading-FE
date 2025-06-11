@@ -7,11 +7,11 @@ const CustomTable = ({ columns, data, actions }) => {
         <thead className="bg-[#2d495a]">
           <tr>
             {columns.map((col) => (
-              <th key={col.key} className="px-4 py-4 font-medium ">
+              <th key={col.key} className="px-4 py-4 font-medium">
                 {col.label}
               </th>
             ))}
-            {actions && <th className="px-4 py-3 ">Actions</th>}
+            {actions && <th className="px-4 py-3">Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -26,61 +26,88 @@ const CustomTable = ({ columns, data, actions }) => {
             </tr>
           ) : (
             data.map((row, rowIndex) => (
-              <tr key={rowIndex} className="border-b border-gray-100">
+              <tr
+                key={rowIndex}
+                className="border-b border-gray-100 text-white"
+              >
                 {columns.map((col) => {
                   const rawValue = row[col.key];
                   const value = col.render ? col.render(row) : rawValue;
 
                   let cellContent;
 
-                  if (typeof value === "boolean") {
-                    cellContent = (
-                      <span
-                        className={`px-2 py-1 text-white rounded ${
-                          value ? "bg-green-500" : "bg-red-500"
-                        }`}
-                      >
-                        {value ? "Yes" : "No"}
-                      </span>
-                    );
-                  } else if (
-                    typeof value === "string" &&
-                    ["Confirmed", "reject", "pending"].includes(value)
-                  ) {
-                    let badgeColor = "";
+                  switch (col.type) {
+                    case "boolean":
+                      cellContent = (
+                        <span
+                          className={`px-2 py-1 text-white rounded ${
+                            value ? "bg-green-500" : "bg-red-500"
+                          }`}
+                        >
+                          {value ? "Yes" : "No"}
+                        </span>
+                      );
+                      break;
 
-                    switch (value) {
-                      case "Confirmed":
-                        badgeColor = "bg-green-500";
-                        break;
-                      case "reject":
-                        badgeColor = "bg-red-500";
-                        break;
-                      case "pending":
-                        badgeColor = "bg-yellow-500";
-                        break;
-                      default:
-                        badgeColor = "bg-gray-300";
-                    }
+                    case "status":
+                      const statusColors = {
+                        confirmed: "bg-green-500",
+                        reject: "bg-red-500",
+                        pending: "bg-yellow-500",
+                      };
+                      cellContent = (
+                        <span
+                          className={`px-2 py-1 text-white rounded text-xs ${
+                            statusColors[value] || "bg-gray-300"
+                          }`}
+                        >
+                          {value}
+                        </span>
+                      );
+                      break;
 
-                    cellContent = (
-                      <span
-                        className={`px-2 py-1 text-white rounded text-xs ${badgeColor}`}
-                      >
-                        {value}
-                      </span>
-                    );
-                  } else if (col.key === "id" && rawValue != null) {
-                    cellContent = `DS-${rawValue}`;
-                  } else {
-                    cellContent =
-                      value !== null && value !== undefined ? value : "-";
+                    case "image":
+                      cellContent = value ? (
+                        <img
+                          src={value}
+                          alt="img"
+                          className="w-[80px] h-[80px] object-cover rounded"
+                        />
+                      ) : (
+                        "-"
+                      );
+                      break;
+
+                    case "date":
+                      cellContent = value
+                        ? new Date(value).toLocaleDateString()
+                        : "-";
+                      break;
+
+                    case "number":
+                      cellContent = value ?? "-";
+                      break;
+
+                    case "amount":
+                      cellContent =
+                        value !== null && value !== undefined
+                          ? `$${value}`
+                          : "-";
+                      break;
+
+                    case "string":
+                    default:
+                      cellContent = value ?? "-";
+                  }
+
+                  if (col.key === "id" && rawValue != null) {
+                    cellContent = `FT-${rawValue}`;
                   }
 
                   return (
                     <td
                       key={col.key}
-                      className="px-4 py-3 text-sm text-gray-800"
+                      className="px-4 py-3 text-sm text-white whitespace-nowrap"
                     >
                       {cellContent}
                     </td>

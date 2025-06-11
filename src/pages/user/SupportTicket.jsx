@@ -40,8 +40,8 @@ const SupportTicket = () => {
   });
 
   const columns = [
-    { key: "title", label: "Title" },
-    { key: "description", label: "Description" },
+    { key: "title", label: "Title", type: "string" },
+    { key: "description", label: "Description", type: "string" },
   ];
 
   const onSubmit = (data) => {

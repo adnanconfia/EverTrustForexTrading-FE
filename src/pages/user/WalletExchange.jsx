@@ -34,12 +34,11 @@ export const WalletExchange = () => {
   };
 
   const columns = [
-    { key: "amount", label: "Amount" },
-    { key: "charge", label: "Charge" },
-    { key: "status", label: "Status" },
-    { key: "total", label: "Total" },
-    // { key: "status", label: "Status" },
-    // { key: "method", label: "Method" },
+    { key: "amount", label: "Amount", type: "amount" },
+    { key: "charge", label: "Charge", type: "amount" },
+    { key: "status", label: "Status", type: "status" },
+    { key: "total", label: "Total", type: "amount" },
+    // { key: "method", label: "Method", type: "string" }, // uncomment if needed
   ];
 
   const {

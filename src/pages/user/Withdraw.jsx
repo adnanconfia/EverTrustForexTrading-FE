@@ -32,12 +32,12 @@ const Withdraws = () => {
   });
 
   const columns = [
-    { key: "description", label: "Description" },
-    { key: "transaction_id", label: "Transaction ID" },
-    { key: "amount", label: "Amount" },
-    { key: "fee", label: "Fee" },
-    { key: "status", label: "Status" },
-    { key: "method", label: "Method" },
+    { key: "description", label: "Description", type: "string" },
+    { key: "transaction_id", label: "Transaction ID", type: "string" },
+    { key: "amount", label: "Amount", type: "amount" },
+    { key: "fee", label: "Fee", type: "number" },
+    { key: "status", label: "Status", type: "status" },
+    { key: "method", label: "Method", type: "string" },
   ];
 
   const onSubmit = (data) => {

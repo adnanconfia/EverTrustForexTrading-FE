@@ -1,19 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaArrowRightFromBracket, FaWallet } from "react-icons/fa6";
 import { FaTimes, FaUniversity } from "react-icons/fa";
 import { useAuth } from "../context/authContext";
 import { FiFilePlus } from "react-icons/fi";
+import useWalletStore from "../stores/auth/walletStore";
+import { useLoading } from "../context/LoaderContext";
 
 const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { setLoading } = useLoading();
   const role = user || "user";
-
+  const { profitWallet, mainWallet, fetchWallet } = useWalletStore();
   const handleLogout = () => {
     localStorage.clear();
     navigate("/login");
   };
+  useEffect(() => {
+    const loadWallet = async () => {
+      if (role === "user") {
+        setLoading(true);
+        await fetchWallet();
+        setLoading(false);
+      }
+    };
+
+    loadWallet();
+  }, [role]);
 
   const menuItems =
     role === "admin"
@@ -128,7 +142,7 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
               <FaWallet className="text-white text-lg" />
               <span>Main Wallet</span>
             </div>
-            <span className="font-bold">$0.00</span>
+            <span className="font-bold">${mainWallet}</span>
           </div>
 
           <div className="flex justify-between items-center">
@@ -136,14 +150,26 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
               <FaUniversity className="text-white text-lg" />
               <span>Profit Wallet</span>
             </div>
-            <span className="font-bold">$0.00</span>
+            <span className="font-bold">${profitWallet}</span>
           </div>
         </div>
       </div>
 
       <div className=" flex justify-between items-center mt-1.5 gap-2 mx-4">
-        <button className="bg-blue-500 w-full px-4 py-3 rounded-sm border-0 hover:bg-rose-400 flex items-center justify-center" onClick={()=>navigate('deposits')}><FiFilePlus /><span className="ms-2">Deposit</span> </button>
-        <button className="bg-green-400 w-full px-4 py-3 rounded-sm border-0 hover:bg-rose-400 flex items-center justify-center" onClick={()=>navigate('schemas')}><FaArrowRightFromBracket /><span className="ms-2">Invest now </span></button>
+        <button
+          className="bg-blue-500 w-full px-4 py-3 rounded-sm border-0 hover:bg-rose-400 flex items-center justify-center"
+          onClick={() => navigate("deposits")}
+        >
+          <FiFilePlus />
+          <span className="ms-2">Deposit</span>{" "}
+        </button>
+        <button
+          className="bg-green-400 w-full px-4 py-3 rounded-sm border-0 hover:bg-rose-400 flex items-center justify-center"
+          onClick={() => navigate("schemas")}
+        >
+          <FaArrowRightFromBracket />
+          <span className="ms-2">Invest now </span>
+        </button>
       </div>
 
       {/* Menu Items */}
