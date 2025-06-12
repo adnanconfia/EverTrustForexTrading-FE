@@ -2,8 +2,7 @@
 import { create } from "zustand";
 import axios from "axios";
 import { toast } from "react-toastify";
-import axiosInstance from "../../services/axiosInstance";
-
+import axiosInstance from "../services/axiosInstance";
 const useWalletStore = create((set, get) => ({
   profitWallet: 0,
   mainWallet: 0,
@@ -41,6 +40,12 @@ const useWalletStore = create((set, get) => ({
       throw err; // optionally re-throw so caller can handle
     }
   },
+  resetWalletState: () =>
+    set({
+      profitWallet: 0,
+      mainWallet: 0,
+      error: null,
+    }),
 }));
 
 export default useWalletStore;

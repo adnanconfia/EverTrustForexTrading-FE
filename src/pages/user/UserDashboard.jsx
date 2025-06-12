@@ -37,12 +37,8 @@ const UserDashboard = () => {
           getTransctionStats(),
         ]);
 
-        // console.log("✅ Fetched Deposits:", depositsData);
-        // console.log("📊 Fetched Transaction Stats:", transactionStats);
-
         setDeposits(depositsData); // store deposits in state
         setStatsData(transactionStats);
-        // Optionally: store statsData in a separate state if needed
       } catch (error) {
         toast.error(error.message || "Failed to load data");
       } finally {
@@ -60,8 +56,10 @@ const UserDashboard = () => {
       <div className="flex flex-col md:flex-row   gap-4 w-full h-fit md:h-[170px]">
         {/* Level Box */}
         <div className="rounded-full border-2 border-rose-400 bg-[#002f46] h-[120px] w-[120px] md:h-[170px] md:w-[170px] flex flex-col justify-center items-center">
-          <h3 className="font-semibold text-xl text-white">Level 1</h3>
-          <p className="text-gray-400">Starter</p>
+          <h3 className="font-semibold text-xl text-white">
+            Level {currentUser?.level}
+          </h3>
+          <p className="text-gray-400">{currentUser.level_name}</p>
         </div>
 
         {/* Referral Box */}

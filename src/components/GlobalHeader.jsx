@@ -12,12 +12,16 @@ import { useUsers } from "../context/UserContext";
 import { BiLock, BiSupport } from "react-icons/bi";
 import { logout } from "../services/authService";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 
 const GlobalHeader = ({ onSidebarToggle, sidebarVisible }) => {
   const navigate = useNavigate();
   const { users } = useUsers() || {};
 
   const currentUser = users?.[0];
+  const { user } = useAuth();
+  const role = user || "user";
+  // console.log("Current User:", role);
 
   return (
     <header className="sticky top-0 left-0 w-full h-16 bg-[#002f46] px-3 text-white border-b border-gray-100 flex justify-between items-center shadow-xl z-50 py-4.5">
@@ -68,20 +72,25 @@ const GlobalHeader = ({ onSidebarToggle, sidebarVisible }) => {
           >
             Settings
           </DropdownItem>
-          <DropdownItem
-            icon={BiLock}
-            className="hover:bg-rose-400 focus:bg-rose-400 hover:text-white focus:text-white"
-            onClick={() => navigate("change-password")}
-          >
-            Change Password
-          </DropdownItem>
-          <DropdownItem
-            icon={BiSupport}
-            className="hover:bg-rose-400 focus:bg-rose-400 hover:text-white focus:text-white"
-            onClick={() => navigate("support-tickets")}
-          >
-            Support Tickets
-          </DropdownItem>
+
+          {role === "user" && (
+            <DropdownItem
+              icon={BiLock}
+              className="hover:bg-rose-400 focus:bg-rose-400 hover:text-white focus:text-white"
+              onClick={() => navigate("change-password")}
+            >
+              Change Password
+            </DropdownItem>
+          )}
+          {role === "user" && (
+            <DropdownItem
+              icon={BiSupport}
+              className="hover:bg-rose-400 focus:bg-rose-400 hover:text-white focus:text-white"
+              onClick={() => navigate("support-tickets")}
+            >
+              Support Tickets
+            </DropdownItem>
+          )}
           <DropdownDivider />
           <DropdownItem
             icon={HiLogout}

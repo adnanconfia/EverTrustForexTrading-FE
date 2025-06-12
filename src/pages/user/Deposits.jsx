@@ -7,11 +7,11 @@ import { FaUpload } from "react-icons/fa";
 import GradientButton from "../../components/GradientButton";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import useWalletStore from "../../stores/auth/walletStore";
 import { useUsers } from "../../context/UserContext";
 import { getAllDeposits, paymentMethod } from "../../services/depositService";
 import { useLoading } from "../../context/LoaderContext";
 import { toast } from "react-toastify";
+import useWalletStore from "../../stores/walletStore";
 
 // ✅ Yup Schema (No size validation)
 const schema = yup.object().shape({
@@ -65,7 +65,6 @@ const Deposits = () => {
   const deposit_image = watch("deposit_image");
 
   // 🔁 Fetch payment methods on mount
-  
 
   // 🖼️ Update preview on file change
   useEffect(() => {
@@ -78,6 +77,27 @@ const Deposits = () => {
       setPreview(null);
     }
   }, [deposit_image]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+
+        const [methods, deposits] = await Promise.all([
+          paymentMethod(),
+          getAllDeposits(),
+        ]);
+
+        setPaymentMethods(methods);
+        setDeposits(deposits);
+      } catch (error) {
+        toast.error("Failed to fetch data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [setLoading]);
 
   // ✅ Form Submit
   const onSubmit = async (data) => {

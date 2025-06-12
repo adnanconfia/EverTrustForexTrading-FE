@@ -4,17 +4,20 @@ import { FaArrowRightFromBracket, FaWallet } from "react-icons/fa6";
 import { FaTimes, FaUniversity } from "react-icons/fa";
 import { useAuth } from "../context/authContext";
 import { FiFilePlus } from "react-icons/fi";
-import useWalletStore from "../stores/auth/walletStore";
 import { useLoading } from "../context/LoaderContext";
+import useWalletStore from "../stores/walletStore";
 
 const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { setLoading } = useLoading();
   const role = user || "user";
-  const { profitWallet, mainWallet, fetchWallet } = useWalletStore();
+  const { profitWallet, mainWallet, fetchWallet, resetWalletState } =
+    useWalletStore();
+
   const handleLogout = () => {
     localStorage.clear();
+    resetWalletState();
     navigate("/login");
   };
   useEffect(() => {
@@ -137,20 +140,44 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
         </div>
 
         <div className="mt-4 space-y-3">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <FaWallet className="text-white text-lg" />
-              <span>Main Wallet</span>
-            </div>
-            <span className="font-bold">${mainWallet}</span>
-          </div>
+          <div className="mt-4 space-y-3">
+            {role === "user" ? (
+              <>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <FaWallet className="text-white text-lg" />
+                    <span>Main Wallet</span>
+                  </div>
+                  <span className="font-bold">${mainWallet}</span>
+                </div>
 
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <FaUniversity className="text-white text-lg" />
-              <span>Profit Wallet</span>
-            </div>
-            <span className="font-bold">${profitWallet}</span>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <FaUniversity className="text-white text-lg" />
+                    <span>Profit Wallet</span>
+                  </div>
+                  <span className="font-bold">${profitWallet}</span>
+                </div>
+              </>
+            ) : role === "admin" ? (
+              <>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <FaWallet className="text-white text-lg" />
+                    <span>Total Deposits</span>
+                  </div>
+                  <span className="font-bold">$10,000</span>{" "}
+                </div>
+
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-2">
+                    <FaUniversity className="text-white text-lg" />
+                    <span>Total Withdrawals</span>
+                  </div>
+                  <span className="font-bold">$4,200</span>{" "}
+                </div>
+              </>
+            ) : null}
           </div>
         </div>
       </div>

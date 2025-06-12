@@ -27,6 +27,8 @@ export const UserProvider = ({ children }) => {
         zip_code: user.zip_code ?? null,
         country: user.country ?? null,
         refer_code: user.refer_code ?? null,
+        level: user.level ?? null,
+        level_name: user.level_name,
       }));
 
       setUsers(formatted);
