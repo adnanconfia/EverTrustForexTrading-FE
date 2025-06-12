@@ -36,7 +36,11 @@ const Login = () => {
       localStorage.setItem("token", result.token);
       localStorage.setItem("user", JSON.stringify(result.user));
       setUser(result.user);
-      navigate(`/${result.user}/dashboard`);
+      if(result.user=='user') {
+      navigate(`/${result.user}/dashboard`)
+    }else{
+       navigate(`/${result.user}/users`)
+    }
     } catch (error) {
       toast.error(error.message || "Login failed. Please try again.");
     } finally {

@@ -8,10 +8,11 @@ import { signup } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/authContext";
+import GradientButton from "../components/GradientButton";
 
 const SignupSchema = Yup.object().shape({
-  firstName: Yup.string().required("First name is required"),
-  lastName: Yup.string().required("Last name is required"),
+  first_name: Yup.string().required("First name is required"),
+  last_name: Yup.string().required("Last name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   country: Yup.string().required("Country is required"),
   refer_code: Yup.string(),
@@ -74,12 +75,12 @@ const Signup = () => {
                 First Name
               </label>
               <input
-                {...register("firstName")}
+                {...register("first_name")}
                 placeholder="First Name"
                 className="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
               />
               <p className="text-sm text-red-500 mt-1">
-                {errors.firstName?.message}
+                {errors.first_name?.message}
               </p>
             </div>
 
@@ -88,12 +89,12 @@ const Signup = () => {
                 Last Name
               </label>
               <input
-                {...register("lastName")}
+                {...register("last_name")}
                 placeholder="Last Name"
                 className="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
               />
               <p className="text-sm text-red-500 mt-1">
-                {errors.lastName?.message}
+                {errors.last_name?.message}
               </p>
             </div>
 

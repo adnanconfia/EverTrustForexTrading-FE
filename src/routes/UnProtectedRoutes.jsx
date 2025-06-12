@@ -12,7 +12,7 @@ const UnProtectedRoutes = ({ children }) => {
     // Redirect based on user role
     const userRole = userData; // Adjust if user object has a nested 'role' field
     const redirectPath =
-      userRole === "admin" ? "/admin/dashboard" : "/user/dashboard";
+      userRole === "admin" ? "/admin/users" : "/user/dashboard";
 
     return <Navigate to={redirectPath} replace state={{ from: location }} />;
   }
