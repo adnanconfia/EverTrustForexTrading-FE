@@ -99,95 +99,35 @@ const UserDashboard = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-4 w-full mt-5">
-        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
-          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
-            <PiFilePlus />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 gap-4 w-full mt-5">
+        {[
+          { value: statsData?.all_transaction_count, label: "All Transaction" },
+          { value: statsData?.ranked, label: "Ranked" },
+          { value: statsData?.total_deposit, label: "Total Deposit" },
+          { value: statsData?.total_withdraw, label: "Total Withdraw" },
+          { value: statsData?.total_investment, label: "Total Investment" },
+          { value: statsData?.total_profit, label: "Total Profit" },
+          { value: statsData?.referral_bonus, label: "Referral Bonus" },
+          { value: statsData?.total_tickets, label: "Total Tickets" },
+          { value: statsData?.total_refers, label: "Total Refers" },
+        ].map((item, index) => (
+          <div
+            key={index}
+            className="flex items-center gap-3 w-full p-3 md:p-3 rounded-md bg-[#002f46] shadow-lg text-white"
+          >
+            <div className="p-1 md:p-2 rounded-full bg-white text-blue-500 text-2xl lg:text-4xl shrink-0">
+              <PiFilePlus />
+            </div>
+            <div className="space-y-1">
+              <div className="text-lg xl:text-2xl font-bold break-words">
+                {item.value}
+              </div>
+              <div className="text-sm xl:text-xl whitespace-nowrap">
+                {item.label}
+              </div>
+            </div>
           </div>
-          <div className="p-3">
-            <div className="text-2xl font-bold"> {statsData?.all_transaction_count}</div>
-            <div className="text-2xl">All Transaction</div>
-          </div>
-        </div>
-        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
-          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
-            <PiFilePlus />
-          </div>
-          <div className="p-3">
-            <div className="text-2xl font-bold"> {statsData?.ranked}</div>
-            <div className="text-2xl">Ranked</div>
-          </div>
-        </div>
-        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
-        
-          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
-            <PiFilePlus />
-          </div>
-          <div className="p-3">
-            <div className="text-2xl font-bold"> {statsData?.total_deposit}</div>
-            <div className="text-2xl">  Total Deposit </div>
-          </div>
-        </div>
-        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
-          
-          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
-            <PiFilePlus />
-          </div>
-          <div className="p-3">
-            <div className="text-2xl font-bold"> {statsData?.total_withdraw}</div>
-            <div className="text-2xl">Total Withdraw </div>
-          </div>
-        </div>
-        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
-         
-          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
-            <PiFilePlus />
-          </div>
-          <div className="p-3">
-            <div className="text-2xl font-bold">{statsData?.total_investment}</div>
-            <div className="text-2xl"> Total Investment </div>
-          </div>
-        </div>
-        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
-          
-          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
-            <PiFilePlus />
-          </div>
-          <div className="p-3">
-            <div className="text-2xl font-bold">{statsData?.total_profit}</div>
-            <div className="text-2xl">Total Profit </div>
-          </div>
-        </div>
-        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
-           
-          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
-            <PiFilePlus />
-          </div>
-          <div className="p-3">
-            <div className="text-2xl font-bold">{statsData?.referral_bonus}</div>
-            <div className="text-2xl">Referral Bonus</div>
-          </div>
-        </div>
-        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
-           
-          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
-            <PiFilePlus />
-          </div>
-          <div className="p-3">
-            <div className="text-2xl font-bold">{statsData?.total_tickets}</div>
-            <div className="text-2xl">Total Tickets</div>
-          </div>
-        </div>
-        <div className="flex justify-center items-center w-full p-3 rounded-md bg-[#002f46] shadow-lg text-white">
-           
-          <div className="p-2 rounded-full bg-white text-blue-500 text-4xl">
-            <PiFilePlus />
-          </div>
-          <div className="p-3">
-            <div className="text-2xl font-bold">{statsData?.total_refers}</div>
-            <div className="text-2xl">Total Refers</div>
-          </div>
-        </div>
+        ))}
       </div>
 
       <div className="flex-1 flex flex-col md:justify-between border rounded-lg bg-[#002f46] border-cyan-600 p-4 text-white mt-5">
