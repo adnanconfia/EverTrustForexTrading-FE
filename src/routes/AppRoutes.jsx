@@ -30,6 +30,7 @@ import SupportTicket from "../pages/user/SupportTicket";
 import Notification from "../pages/user/Notification";
 import ChangePassword from "../pages/user/ChangePassword";
 import { WalletExchange } from "../pages/user/WalletExchange";
+import AdminUser from "../pages/admin/AdminUser";
 
 const AppRoutes = () => {
   const { loading } = useLoading();
@@ -111,6 +112,7 @@ const AppRoutes = () => {
             </ProtectedRoutes>
           }
         >
+          <Route path="users" element={<AdminUser/>} />
           <Route path="dashboard" element={<AdminDashboard />} />
         </Route>
 
