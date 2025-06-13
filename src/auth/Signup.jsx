@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { countries } from "../helper/countryList";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useLoading } from "../context/LoaderContext";
 import { signup } from "../services/authService";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/authContext";
 import GradientButton from "../components/GradientButton";
@@ -26,6 +26,7 @@ const SignupSchema = Yup.object().shape({
 });
 
 const Signup = () => {
+  const [searchParams] = useSearchParams();
   const { setLoading } = useLoading();
   const { logout, setUser } = useAuth();
   const navigate = useNavigate();
@@ -33,11 +34,19 @@ const Signup = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(SignupSchema),
     mode: "onChange",
   });
+  useEffect(() => {
+    const inviteCode = searchParams.get("invite");
+    if (inviteCode) {
+      setValue("refer_code", inviteCode); // set default value
+    }
+  }, [searchParams, setValue]);
+
   const onSubmit = async (data) => {
     setLoading(true);
 

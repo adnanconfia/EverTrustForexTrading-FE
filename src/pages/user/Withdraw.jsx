@@ -1,15 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomTable from "../../components/CustomTable";
 import { Dialog } from "primereact/dialog";
-import { Button } from "primereact/button";
 import { useForm } from "react-hook-form";
 import GradientButton from "../../components/GradientButton";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { getAllWithdraws } from "../../services/transactionService";
+import { paymentMethod } from "../../services/depositService";
+import useWalletStore from "../../stores/walletStore";
+import { useLoading } from "../../context/LoaderContext";
+import { useUsers } from "../../context/UserContext";
+import { Button } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 // ✅ Yup schema with all validations
 const schema = yup.object().shape({
-  paymentMethod: yup.string().required("Payment method is required"),
+  payment_method: yup.string().required("Withdraw method is required"),
   amount: yup
     .number()
     .typeError("Amount must be a number")
@@ -19,6 +25,13 @@ const schema = yup.object().shape({
 
 const Withdraws = () => {
   const [visible, setVisible] = useState(false);
+  const [paymentMethods, setPaymentMethods] = useState([]);
+  const [withdraws, setWithdraws] = useState([]);
+
+  const { updateWalletAfterAction } = useWalletStore();
+  const { users } = useUsers();
+  const { setLoading } = useLoading();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -39,22 +52,68 @@ const Withdraws = () => {
     { key: "status", label: "Status", type: "status" },
     { key: "method", label: "Method", type: "string" },
   ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
-    setVisible(false);
+        const [methods, withdraws] = await Promise.all([
+          paymentMethod(),
+          getAllWithdraws(),
+        ]);
+
+        setPaymentMethods(methods);
+        setWithdraws(withdraws);
+      } catch (error) {
+        toast.error("Failed to fetch data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [setLoading]);
+  const onSubmit = async (data) => {
+    const currentUser = users?.[0];
+    try {
+      setLoading(true);
+      data.user = currentUser.id;
+      const newWithdraw = await updateWalletAfterAction(
+        "/withdraw-account/",
+        data,
+        "Withdraw request submitted"
+      );
+      setWithdraws((prevWithdraws) => [newWithdraw, ...prevWithdraws]);
+
+      // toast.success("Deposit request submitted!");
+      reset();
+      setVisible(false);
+      setPreview(null);
+    } catch (err) {
+      toast.error("Failed to submit deposit");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="flex-1 flex flex-col md:justify-between border rounded-lg bg-[#002f46] border-cyan-600 p-4 text-white mt-5">
       <div className="border-b border-cyan-600 pb-2 mb-3 flex justify-between items-center">
         <p className="font-semibold">Withdraws</p>
-        <Button
-          label="Add Withdraw"
-          className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md"
-          onClick={() => setVisible(true)}
-        />
+        <div className="flex gap-2">
+          <Button
+            className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md focus:outline-none focus:ring-0"
+            onClick={() => navigate("/user/withdraw-account")}
+          >
+            Add Account
+          </Button>
+          <Button
+            className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md focus:outline-none focus:ring-0"
+            onClick={() => setVisible(true)}
+          >
+            Add Withdraw
+          </Button>
+        </div>
       </div>
 
       <Dialog
@@ -74,15 +133,19 @@ const Withdraws = () => {
               Withdraw Method
             </label>
             <select
-              {...register("withdrawMethod")}
+              {...register("payment_method")}
               className="w-full border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 rounded-lg px-4 py-2 text-gray-700"
             >
               <option value="">Select method</option>
-              <option value="stripe">USDT</option>
+              {paymentMethods.map((method) => (
+                <option key={method.id} value={method.id}>
+                  {method.name}
+                </option>
+              ))}
             </select>
-            {errors.withdrawMethod && (
+            {errors.payment_method && (
               <span className="text-red-500 text-sm mt-1">
-                {errors.withdrawMethod.message}
+                {errors.payment_method.message}
               </span>
             )}
           </div>
@@ -116,7 +179,7 @@ const Withdraws = () => {
       </Dialog>
 
       <div>
-        <CustomTable data={[]} columns={columns} />
+        <CustomTable data={withdraws} columns={columns} />
       </div>
     </div>
   );

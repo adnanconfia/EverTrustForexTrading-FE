@@ -6,18 +6,21 @@ import { useAuth } from "../context/authContext";
 import { FiFilePlus } from "react-icons/fi";
 import { useLoading } from "../context/LoaderContext";
 import useWalletStore from "../stores/walletStore";
+import { useUsers } from "../context/UserContext";
 
 const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { setLoading } = useLoading();
   const role = user || "user";
+  const { resetUsers } = useUsers();
+
   const { profitWallet, mainWallet, fetchWallet, resetWalletState } =
     useWalletStore();
-
   const handleLogout = () => {
     localStorage.clear();
     resetWalletState();
+    resetUsers();
     navigate("/login");
   };
   useEffect(() => {
@@ -95,6 +98,11 @@ const SidebarMenu = ({ visible, isLargeScreen, onClose }) => {
             label: "Withdraw",
             icon: "pi pi-building-columns",
             path: "/user/withdraws",
+          },
+          {
+            label: "Withdraw Account",
+            icon: "pi pi-building",
+            path: "/user/withdraw-account",
           },
           {
             label: "Ranking Badge",

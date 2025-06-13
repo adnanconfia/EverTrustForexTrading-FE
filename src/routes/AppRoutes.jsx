@@ -31,6 +31,7 @@ import Notification from "../pages/user/Notification";
 import ChangePassword from "../pages/user/ChangePassword";
 import { WalletExchange } from "../pages/user/WalletExchange";
 import AdminUser from "../pages/admin/AdminUser";
+import WithdrawAccount from "../pages/user/WithdrawAccount";
 
 const AppRoutes = () => {
   const { loading } = useLoading();
@@ -66,7 +67,7 @@ const AppRoutes = () => {
           }
         />
         <Route
-          path="/register/:referCode?"
+          path="/register"
           element={
             <UnProtectedRoutes>
               <Signup />
@@ -93,15 +94,14 @@ const AppRoutes = () => {
           <Route path="transactions" element={<AllTransaction />} />
           <Route path="deposits" element={<Deposits />} />
           <Route path="withdraws" element={<Withdraws />} />
+          <Route path="withdraw-account" element={<WithdrawAccount />} />
           <Route path="ranking-badge" element={<RankingBadge />} />
           <Route path="referral" element={<Referral />} />
           <Route path="settings" element={<ProfileSetting />} />
           <Route path="support-tickets" element={<SupportTicket />} />
           <Route path="notifications" element={<Notification />} />
           <Route path="change-password" element={<ChangePassword />} />
-          <Route path="wallet-exchange" element={<WalletExchange/>}/>
-          {/* <Route path="deposit" element={<AddMoney />} /> */}
-          {/* <Route path="deposit-log" element={<MoneyLog />} /> */}
+          <Route path="wallet-exchange" element={<WalletExchange />} />
         </Route>
 
         <Route
@@ -112,7 +112,7 @@ const AppRoutes = () => {
             </ProtectedRoutes>
           }
         >
-          <Route path="users" element={<AdminUser/>} />
+          <Route path="users" element={<AdminUser />} />
           <Route path="dashboard" element={<AdminDashboard />} />
         </Route>
 

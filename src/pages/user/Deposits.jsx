@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CustomTable from "../../components/CustomTable";
 import { Dialog } from "primereact/dialog";
-import { Button } from "primereact/button";
+import { Button } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { FaUpload } from "react-icons/fa";
 import GradientButton from "../../components/GradientButton";
@@ -147,10 +147,11 @@ const Deposits = () => {
       <div className="border-b border-cyan-600 pb-2 mb-3 flex justify-between items-center">
         <p className="font-semibold">Deposits</p>
         <Button
-          label="Add Deposit"
-          className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md"
+          className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md focus:outline-none focus:ring-0"
           onClick={() => setVisible(true)}
-        />
+        >
+          Add Deposit
+        </Button>
       </div>
 
       {/* Modal Dialog */}

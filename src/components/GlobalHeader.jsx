@@ -13,11 +13,13 @@ import { BiLock, BiSupport } from "react-icons/bi";
 import { logout } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import useWalletStore from "../stores/walletStore";
 
 const GlobalHeader = ({ onSidebarToggle, sidebarVisible }) => {
   const navigate = useNavigate();
   const { users } = useUsers() || {};
-
+  const { resetWalletState } = useWalletStore();
+  const { resetUsers } = useUsers();
   const currentUser = users?.[0];
   const { user } = useAuth();
   const role = user || "user";
@@ -95,7 +97,10 @@ const GlobalHeader = ({ onSidebarToggle, sidebarVisible }) => {
           <DropdownItem
             icon={HiLogout}
             className="hover:bg-rose-400 focus:bg-rose-400 hover:text-white focus:text-white"
-            onClick={() => logout()}
+            onClick={() => {
+              logout(), resetWalletState();
+              resetUsers();
+            }}
           >
             Sign out
           </DropdownItem>

@@ -8,6 +8,7 @@ import { useAuth } from "../context/authContext";
 import { useLoading } from "../context/LoaderContext";
 import { toast } from "react-toastify";
 import GradientButton from "../components/GradientButton";
+import { useUsers } from "../context/UserContext";
 const loginSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address")
@@ -18,6 +19,8 @@ const Login = () => {
   const navigate = useNavigate();
   const { setLoading } = useLoading();
   const { logout, setUser } = useAuth();
+  const { fetchUsers } = useUsers(); // from UserContext
+
   const {
     register,
     handleSubmit,
@@ -36,11 +39,14 @@ const Login = () => {
       localStorage.setItem("token", result.token);
       localStorage.setItem("user", JSON.stringify(result.user));
       setUser(result.user);
-      if(result.user=='user') {
-      navigate(`/${result.user}/dashboard`)
-    }else{
-       navigate(`/${result.user}/users`)
-    }
+      if (result.user == "user") {
+        navigate(`/${result.user}/dashboard`);
+      } else {
+        navigate(`/${result.user}/users`);
+      }
+      await fetchUsers();
+
+      navigate(`/${result.user}/dashboard`);
     } catch (error) {
       toast.error(error.message || "Login failed. Please try again.");
     } finally {

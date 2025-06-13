@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import CustomTable from "../../components/CustomTable";
 import { Button } from "primereact/button";
 import Tree from "react-d3-tree";
+import { useUsers } from "../../context/UserContext";
+import { CLIENT_URL } from "../../config";
 
 const orgChartJson = {
   name: "CEO",
@@ -145,6 +147,7 @@ const renderNodeWithAvatarOrInitials = ({ nodeDatum, toggleNode }) => {
 const Referral = () => {
   const treeContainerRef = useRef(null);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
+  const { users } = useUsers() || {};
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -183,16 +186,17 @@ const Referral = () => {
             <input
               type="text"
               readOnly
-              value="https://yourdomain.com/referral/abc123"
+              value={CLIENT_URL + "register?invite=" + users[0]?.refer_code}
               className="w-full bg-[#001f33] text-white px-4 py-2 rounded-md border border-cyan-600 focus:outline-none"
             />
             <button
               type="button"
-              onClick={() =>
+              onClick={() => {
                 navigator.clipboard.writeText(
-                  "https://yourdomain.com/referral/abc123"
-                )
-              }
+                  CLIENT_URL + "register?invite=" + users[0]?.refer_code
+                );
+                toast.success("Referral link copied!");
+              }}
               className="bg-rose-400 hover:bg-rose-500 text-white px-4 py-2 rounded-md"
             >
               Copy
