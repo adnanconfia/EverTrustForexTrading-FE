@@ -135,3 +135,13 @@ button {
 .p-dialog-content {
   padding: 1rem 2rem 2rem 2rem;
 }
+.custom-input {
+  @apply w-full px-3 py-2 rounded-md bg-[#2d495a] text-white h-[42px] border border-cyan-400 focus:outline-none focus:ring focus:ring-cyan-400 focus:border-cyan-400;
+}
+
+.custom-label {
+  @apply text-sm font-medium mb-1 text-white;
+}
+.custom-error {
+  @apply text-sm text-red-500 mt-1;
+}

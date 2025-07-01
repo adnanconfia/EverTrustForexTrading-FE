@@ -1,75 +1,66 @@
 import React, { useEffect, useRef, useState } from "react";
 import CustomTable from "../../components/CustomTable";
-import { Button } from "primereact/button";
 import Tree from "react-d3-tree";
 import { useUsers } from "../../context/UserContext";
 import { CLIENT_URL } from "../../config";
+import PrimaryButton from "../../components/PrimaryButton";
+import { toast } from "react-toastify";
+import { useLoading } from "../../context/LoaderContext";
+import { getReferralLog, getRefTree } from "../../services/referralService";
 
-const orgChartJson = {
-  name: "CEO",
-  children: [
-    {
-      name: "Manager",
-      attributes: {
-        department: "Production",
-      },
-      children: [
-        {
-          name: "Foreman",
-          attributes: {
-            department: "Fabrication",
-          },
-          children: [
-            {
-              name: "Workers",
-            },
-          ],
-        },
-        {
-          name: "Foreman",
-          attributes: {
-            department: "Assembly",
-          },
-          children: [
-            {
-              name: "Workers",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      name: "Manager",
-      attributes: {
-        department: "Marketing",
-      },
-      children: [
-        {
-          name: "Sales Officer",
-          attributes: {
-            department: "A",
-          },
-          children: [
-            {
-              name: "Salespeople",
-            },
-          ],
-        },
-        {
-          name: "Sales Officer",
-          attributes: {
-            department: "B",
-          },
-          children: [
-            {
-              name: "Salespeople",
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
+// const orgChartJson = {
+//   name: "CEO",
+//   children: [
+//     {
+//       name: "Manager",
+
+//       children: [
+//         {
+//           name: "Foreman",
+
+//           children: [
+//             {
+//               name: "Workers",
+//             },
+//           ],
+//         },
+//         {
+//           name: "Foreman",
+
+//           children: [
+//             {
+//               name: "Workers",
+//             },
+//           ],
+//         },
+//       ],
+//     },
+//     {
+//       name: "Manager",
+
+//       children: [
+//         {
+//           name: "Sales Officer",
+
+//           children: [
+//             {
+//               name: "Salespeople",
+//             },
+//           ],
+//         },
+//         {
+//           name: "Sales Officer",
+
+//           children: [
+//             {
+//               name: "Salespeople",
+//             },
+//           ],
+//         },
+//       ],
+//     },
+//   ],
+// };
 
 // Utility to get initials
 const getInitials = (name) => {
@@ -148,6 +139,8 @@ const Referral = () => {
   const treeContainerRef = useRef(null);
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
   const { users } = useUsers() || {};
+  const [history, setHistory] = useState([]);
+  const { setLoading } = useLoading();
 
   useEffect(() => {
     const updateDimensions = () => {
@@ -166,6 +159,34 @@ const Referral = () => {
     }
 
     return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    const loadHistory = async () => {
+      try {
+        setLoading(true);
+        const resp = await getReferralLog();
+        setHistory(resp);
+      } catch (error) {
+        toast.error(error.message || "Failed to load logs");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadHistory();
+  }, []);
+  useEffect(() => {
+    const loadTree = async () => {
+      try {
+        setLoading(true);
+        const resp = await getRefTree();
+        setHistory(resp);
+      } catch (error) {
+        toast.error(error.message || "Failed to load ldata");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadTree();
   }, []);
 
   const columns = [
@@ -189,7 +210,8 @@ const Referral = () => {
               value={CLIENT_URL + "register?invite=" + users[0]?.refer_code}
               className="w-full bg-[#001f33] text-white px-4 py-2 rounded-md border border-cyan-600 focus:outline-none"
             />
-            <button
+
+            <PrimaryButton
               type="button"
               onClick={() => {
                 navigator.clipboard.writeText(
@@ -197,10 +219,9 @@ const Referral = () => {
                 );
                 toast.success("Referral link copied!");
               }}
-              className="bg-rose-400 hover:bg-rose-500 text-white px-4 py-2 rounded-md"
             >
               Copy
-            </button>
+            </PrimaryButton>
           </div>
 
           <p className="text-gray-300 mt-1">
@@ -228,13 +249,11 @@ const Referral = () => {
       <div className="flex-1 flex flex-col md:justify-between border rounded-lg bg-[#002f46] border-cyan-600 p-4 text-white">
         <div className="border-b border-cyan-600 pb-2 mb-3 flex justify-between items-center">
           <p className="font-semibold">All Referral Logs</p>
-          <Button
-            label="Referral Profit: 0 USDT"
-            className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 text-sm  rounded-md"
-          />
+
+          <PrimaryButton type="button">Referral Profit: 0 USDT</PrimaryButton>
         </div>
         <div>
-          <CustomTable data={[]} columns={columns} />
+          <CustomTable data={history} columns={columns} />
         </div>
       </div>
     </div>

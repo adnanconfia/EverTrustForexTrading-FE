@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useState } from "react";
 import CustomTable from "../../components/CustomTable";
@@ -9,6 +9,10 @@ import GradientButton from "../../components/GradientButton";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FaCloudUploadAlt, FaTimes } from "react-icons/fa";
+import PrimaryButton from "../../components/PrimaryButton";
+import { addTickets, getAlltickets } from "../../services/ticketService";
+import { useLoading } from "../../context/LoaderContext";
+import { toast } from "react-toastify";
 
 // ✅ Yup schema with all validations
 const schema = yup.object().shape({
@@ -26,7 +30,8 @@ const schema = yup.object().shape({
 const SupportTicket = () => {
   const [visible, setVisible] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
-
+  const { setLoading } = useLoading();
+  const [allTickets, setAllTickets] = useState([]);
   const {
     register,
     handleSubmit,
@@ -38,17 +43,51 @@ const SupportTicket = () => {
     resolver: yupResolver(schema),
     mode: "onChange",
   });
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        const tickets = await getAlltickets();
+        setAllTickets(tickets);
+      } catch (error) {
+        toast.error(error.message || "Fetch data failed");
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    loadData();
+  }, []);
   const columns = [
     { key: "title", label: "Title", type: "string" },
     { key: "description", label: "Description", type: "string" },
+    { key: "status", label: "Status", type: "status" },
+    { key: "image", label: "Image", type: "image" },
   ];
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
-    setVisible(false);
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("title", data.title);
+      formData.append("description", data.description);
+
+      if (data.image && data.image instanceof File) {
+        formData.append("image", data.image);
+      }
+
+      const newTicket = await addTickets(formData);
+      setAllTickets((prev) => [newTicket, ...prev]);
+      toast.success("Ticket submitted successfully");
+      reset();
+      setVisible(false);
+    } catch (error) {
+      toast.error(error.message || "Failed to submit ticket");
+    } finally {
+      setLoading(false);
+    }
   };
+
   const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -67,11 +106,10 @@ const SupportTicket = () => {
     <div className="flex-1 flex flex-col md:justify-between border rounded-lg bg-[#002f46] border-cyan-600 p-4 text-white mt-5">
       <div className="border-b border-cyan-600 pb-2 mb-3 flex justify-between items-center">
         <p className="font-semibold">Support Tickets</p>
-        <Button
-          label="Add Withdraw"
-          className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md"
-          onClick={() => setVisible(true)}
-        />
+
+        <PrimaryButton type="button" onClick={() => setVisible(true)}>
+          Add Ticket
+        </PrimaryButton>
       </div>
 
       <Dialog
@@ -167,7 +205,7 @@ const SupportTicket = () => {
       </Dialog>
 
       <div>
-        <CustomTable data={[]} columns={columns} />
+        <CustomTable data={allTickets} columns={columns} />
       </div>
     </div>
   );

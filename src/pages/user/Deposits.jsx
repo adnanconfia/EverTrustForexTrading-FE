@@ -8,10 +8,11 @@ import GradientButton from "../../components/GradientButton";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useUsers } from "../../context/UserContext";
-import { getAllDeposits, paymentMethod } from "../../services/depositService";
+import { getAllDeposits } from "../../services/depositService";
 import { useLoading } from "../../context/LoaderContext";
 import { toast } from "react-toastify";
 import useWalletStore from "../../stores/walletStore";
+import usePaymentMethodStore from "../../stores/paymentMehodStore";
 
 // ✅ Yup Schema (No size validation)
 const schema = yup.object().shape({
@@ -43,13 +44,13 @@ const schema = yup.object().shape({
 const Deposits = () => {
   const [visible, setVisible] = useState(false);
   const [preview, setPreview] = useState(null);
-  const [paymentMethods, setPaymentMethods] = useState([]);
+  // const [paymentMethods, setPaymentMethods] = useState([]);
   const [deposits, setDeposits] = useState([]);
 
   const { updateWalletAfterAction } = useWalletStore();
   const { users } = useUsers();
   const { setLoading } = useLoading();
-
+  const { paymentMethodList, fetchPaymentMethods } = usePaymentMethodStore();
   const {
     register,
     handleSubmit,
@@ -82,12 +83,11 @@ const Deposits = () => {
       try {
         setLoading(true);
 
-        const [methods, deposits] = await Promise.all([
-          paymentMethod(),
-          getAllDeposits(),
-        ]);
+        const deposits = await getAllDeposits();
 
-        setPaymentMethods(methods);
+        await fetchPaymentMethods(setLoading);
+
+        // setPaymentMethods(methods);
         setDeposits(deposits);
       } catch (error) {
         toast.error("Failed to fetch data");
@@ -138,7 +138,7 @@ const Deposits = () => {
     { key: "deposit_image", label: "Screenshot", type: "image" },
     { key: "amount", label: "Amount", type: "amount" },
     { key: "fee", label: "Fee", type: "amount" },
-    { key: "payment_status", label: "Status", type: "status" },
+    { key: "status", label: "Status", type: "status" },
     { key: "payment_method_name", label: "Method", type: "string" },
   ];
 
@@ -178,7 +178,7 @@ const Deposits = () => {
               className="w-full border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 rounded-lg px-4 py-2 text-gray-700"
             >
               <option value="">Select method</option>
-              {paymentMethods.map((method) => (
+              {paymentMethodList.map((method) => (
                 <option key={method.id} value={method.id}>
                   {method.name}
                 </option>

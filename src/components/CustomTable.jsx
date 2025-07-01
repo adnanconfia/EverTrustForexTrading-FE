@@ -15,7 +15,7 @@ const CustomTable = ({ columns, data, actions }) => {
           </tr>
         </thead>
         <tbody>
-          {data.length === 0 ? (
+          {data?.length === 0 ? (
             <tr>
               <td
                 colSpan={columns.length + (actions ? 1 : 0)}
@@ -25,7 +25,7 @@ const CustomTable = ({ columns, data, actions }) => {
               </td>
             </tr>
           ) : (
-            data.map((row, rowIndex) => (
+            data?.map((row, rowIndex) => (
               <tr
                 key={rowIndex}
                 className="border-b border-gray-100 text-white"
@@ -52,8 +52,12 @@ const CustomTable = ({ columns, data, actions }) => {
                     case "status":
                       const statusColors = {
                         confirmed: "bg-green-500",
+                        completed: "bg-green-500",
+                        resolved: "bg-green-500",
                         reject: "bg-red-500",
+                        rejected: "bg-red-500",
                         pending: "bg-yellow-500",
+                        open: "bg-yellow-500",
                       };
                       cellContent = (
                         <span

@@ -21,18 +21,25 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return !!localStorage.getItem("token");
+  });
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
+      setIsAuthenticated(true);
     } else {
       localStorage.removeItem("user");
+      setIsAuthenticated(false);
     }
   }, [user]);
 
   const logout = () => {
     setUser(null);
+    setIsAuthenticated(false);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     window.location.href = "/login";
@@ -41,10 +48,11 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     setUser,
+    isAuthenticated,
+    setIsAuthenticated,
     loading,
     setLoading,
     logout,
-    isAuthenticated: !!localStorage.getItem("token"),
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -55,53 +55,43 @@ const ChangePassword = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 gap-4">
             <div>
-              <label className="block text-sm font-normal text-white mb-1">
-                Current Password
-              </label>
+              <label className="custom-label">Current Password</label>
               <input
                 {...register("old_password")}
                 type="password"
                 placeholder="Current Password"
-                className="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="custom-input"
               />
-              <p className="text-sm text-red-500 mt-1">
-                {errors.old_password?.message}
-              </p>
+              <p className="custom-error">{errors.old_password?.message}</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-normal text-white mb-1">
-                  New Password
-                </label>
+                <label className="custom-label">New Password</label>
                 <input
                   {...register("new_password")}
                   type="password"
                   placeholder="New Password"
-                  className="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                  className="custom-input"
                 />
-                <p className="text-sm text-red-500 mt-1">
-                  {errors.new_password?.message}
-                </p>
+                <p className="custom-error">{errors.new_password?.message}</p>
               </div>
               <div>
-                <label className="block text-sm font-normal text-white mb-1">
-                  Confirm Password
-                </label>
+                <label className="custom-label">Confirm Password</label>
                 <input
                   {...register("confirmPassword")}
                   type="password"
                   placeholder="Confirm Password"
-                  className="block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                  className="custom-input"
                 />
-                <p className="text-sm text-red-500 mt-1">
+                <p className="custom-error">
                   {errors.confirmPassword?.message}
                 </p>
               </div>
             </div>
           </div>
 
-          <p className="text-sm text-red-500 mt-1">{errors.agree?.message}</p>
+          <p className="custom-error">{errors.agree?.message}</p>
 
           {/* <GradientButton type="submit">Change Password</GradientButton> */}
           <button

@@ -1,9 +1,9 @@
-// src/store/walletStore.js
 import { create } from "zustand";
-import axios from "axios";
 import { toast } from "react-toastify";
 import axiosInstance from "../services/axiosInstance";
+
 const useWalletStore = create((set, get) => ({
+  walletList: [], // ✅ Store full wallet array
   profitWallet: 0,
   mainWallet: 0,
   error: null,
@@ -19,6 +19,7 @@ const useWalletStore = create((set, get) => ({
       const main = wallets.find((w) => w.name.toLowerCase() === "main wallet");
 
       set({
+        walletList: wallets, // ✅ Store full array here
         profitWallet: parseFloat(profit?.balance || 0.0),
         mainWallet: parseFloat(main?.balance || 0.0),
         error: null,
@@ -32,16 +33,16 @@ const useWalletStore = create((set, get) => ({
   updateWalletAfterAction: async (actionUrl, payload, successMsg) => {
     try {
       const response = await axiosInstance.post(actionUrl, payload);
-      await get().fetchWallet();
-      toast.success(successMsg);
-      return response.data; // now this will contain the data from the server
+      await get().fetchWallet(); // ✅ Re-fetch to update walletList
+      return response.data;
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Transaction failed");
-      throw err; // optionally re-throw so caller can handle
+      throw err;
     }
   },
+
   resetWalletState: () =>
     set({
+      walletList: [],
       profitWallet: 0,
       mainWallet: 0,
       error: null,

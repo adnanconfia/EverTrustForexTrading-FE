@@ -3,10 +3,9 @@ import CustomTable from "../../components/CustomTable";
 import { useUsers } from "../../context/UserContext";
 import { CLIENT_URL } from "../../config";
 import {
-  getTransction,
+  getRecentTransction,
   getTransctionStats,
 } from "../../services/transactionService";
-import { PiFilePlus } from "react-icons/pi";
 import { useLoading } from "../../context/LoaderContext";
 import { toast } from "react-toastify";
 
@@ -23,7 +22,7 @@ const UserDashboard = () => {
       try {
         setLoading(true);
         const [depositsData, transactionStats] = await Promise.all([
-          getTransction(),
+          getRecentTransction(),
           getTransctionStats(),
         ]);
         setDeposits(depositsData);

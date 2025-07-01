@@ -6,8 +6,16 @@ export const getTransction = async () => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.message || "Failed to fetch payment methods"
+      error.response?.data?.message || "Failed to fetch transections"
     );
+  }
+};
+export const getRecentTransction = async () => {
+  try {
+    const response = await axiosInstance.get("/recent-transaction-history/");
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || "Failed to fetch data");
   }
 };
 
@@ -33,26 +41,7 @@ export const getAllWithdraws = async () => {
     );
   }
 };
-export const getAllAccounts = async (id) => {
-  try {
-    const response = await axiosInstance.get("/withdraw-account/");
-    return response.data;
-  } catch (error) {
-    throw new Error(
-      error.response?.data?.message || "Failed to fetch payment methods"
-    );
-  }
-};
-export const addAccounts = async (data) => {
-  try {
-    const response = await axiosInstance.post("/withdraw-account/", data);
-    return response.data;
-  } catch (error) {
-    throw new Error(
-      error.response?.data?.message || "Failed to add withdraw account"
-    );
-  }
-};
+
 export const updateAccount = async (id, data) => {
   try {
     const response = await axiosInstance.put(`/withdraw-account/${id}/`, data);

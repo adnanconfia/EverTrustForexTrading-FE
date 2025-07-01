@@ -6,17 +6,16 @@ import { useForm } from "react-hook-form";
 import CustomTable from "../../components/CustomTable";
 import { useLoading } from "../../context/LoaderContext";
 import { toast } from "react-toastify";
-import { paymentMethod } from "../../services/depositService";
 import {
-  addAccounts,
   deleteAccount,
-  getAllAccounts,
   updateAccount,
 } from "../../services/transactionService";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useUsers } from "../../context/UserContext";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { addAccounts, getAllAccounts } from "../../services/accountService";
+import usePaymentMethodStore from "../../stores/paymentMehodStore";
 const schema = yup.object().shape({
   payment_method: yup.string().required("Payment method is required"),
   method_name: yup.string().required("Method name is required"),
@@ -25,11 +24,11 @@ const schema = yup.object().shape({
 
 const WithdrawAccount = () => {
   const [visible, setVisible] = useState(false);
-  const [paymentMethods, setPaymentMethods] = useState([]);
   const [accounts, setAccounts] = useState([]);
   const { users } = useUsers();
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState(null);
+  const { paymentMethodList, fetchPaymentMethods } = usePaymentMethodStore();
 
   const { setLoading } = useLoading();
   const {
@@ -48,12 +47,8 @@ const WithdrawAccount = () => {
       try {
         setLoading(true);
 
-        const [methods, account_list] = await Promise.all([
-          paymentMethod(),
-          getAllAccounts(),
-        ]);
-
-        setPaymentMethods(methods);
+        const account_list = await getAllAccounts();
+        await fetchPaymentMethods(setLoading);
         setAccounts(account_list);
       } catch (error) {
         toast.error("Failed to fetch data");
@@ -193,7 +188,7 @@ const WithdrawAccount = () => {
               className="w-full border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 rounded-lg px-4 py-2 text-gray-700"
             >
               <option value="">Select method</option>
-              {paymentMethods.map((method) => (
+              {paymentMethodList.map((method) => (
                 <option key={method.id} value={method.id}>
                   {method.name}
                 </option>

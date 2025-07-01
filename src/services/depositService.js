@@ -12,9 +12,7 @@ export const paymentMethod = async () => {
 };
 export const getAllDeposits = async () => {
   try {
-    const response = await axiosInstance.get(
-      "/transaction-history/?history_type=deposit"
-    );
+    const response = await axiosInstance.get("/payments/?payment_type=deposit");
     return response.data;
   } catch (error) {
     throw new Error(

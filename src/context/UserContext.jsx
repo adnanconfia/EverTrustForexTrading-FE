@@ -12,6 +12,7 @@ export const UserProvider = ({ children }) => {
   const { isAuthenticated } = useAuth();
   const { setLoading } = useLoading();
 
+  // ✅ Fetch all user profiles
   const fetchUsers = async () => {
     setLoading(true);
     try {
@@ -38,16 +39,29 @@ export const UserProvider = ({ children }) => {
       setError("");
     } catch (err) {
       toast.error(err.response?.data?.detail || "Failed to fetch users");
+      setError(err.message);
     } finally {
-      setLoading(false); // ✅ Stop global loader
+      setLoading(false);
     }
   };
 
+  // ✅ Replace single user after profile update
+  const updateUserInContext = (updatedUser) => {
+    setUsers((prevUsers) => {
+      const updatedList = prevUsers.map((user) =>
+        user.id === updatedUser.id ? updatedUser : user
+      );
+      return updatedList;
+    });
+  };
+
+  // ✅ Clear context state
   const resetUsers = () => {
     setUsers([]);
     setError("");
   };
 
+  // ✅ Auto-fetch when authenticated
   useEffect(() => {
     if (isAuthenticated) {
       fetchUsers();
@@ -58,11 +72,24 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ users, setUsers, fetchUsers, error, resetUsers }}
+      value={{
+        users,
+        setUsers,
+        fetchUsers,
+        updateUserInContext,
+        error,
+        resetUsers,
+      }}
     >
       {children}
     </UserContext.Provider>
   );
 };
 
-export const useUsers = () => useContext(UserContext);
+export const useUsers = () => {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUsers must be used within a UserProvider");
+  }
+  return context;
+};
