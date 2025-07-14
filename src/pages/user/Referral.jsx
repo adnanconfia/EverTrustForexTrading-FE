@@ -8,60 +8,6 @@ import { toast } from "react-toastify";
 import { useLoading } from "../../context/LoaderContext";
 import { getReferralLog, getRefTree } from "../../services/referralService";
 
-// const orgChartJson = {
-//   name: "CEO",
-//   children: [
-//     {
-//       name: "Manager",
-
-//       children: [
-//         {
-//           name: "Foreman",
-
-//           children: [
-//             {
-//               name: "Workers",
-//             },
-//           ],
-//         },
-//         {
-//           name: "Foreman",
-
-//           children: [
-//             {
-//               name: "Workers",
-//             },
-//           ],
-//         },
-//       ],
-//     },
-//     {
-//       name: "Manager",
-
-//       children: [
-//         {
-//           name: "Sales Officer",
-
-//           children: [
-//             {
-//               name: "Salespeople",
-//             },
-//           ],
-//         },
-//         {
-//           name: "Sales Officer",
-
-//           children: [
-//             {
-//               name: "Salespeople",
-//             },
-//           ],
-//         },
-//       ],
-//     },
-//   ],
-// };
-
 // Utility to get initials
 const getInitials = (name) => {
   if (!name) return "";
@@ -74,8 +20,9 @@ const getInitials = (name) => {
 
 // Render function for avatar or initials
 const renderNodeWithAvatarOrInitials = ({ nodeDatum, toggleNode }) => {
+  const displayName = nodeDatum.__rd3t?.depth === 0 ? "Me" : nodeDatum.name;
   const hasImage = !!nodeDatum.avatar;
-  const initials = getInitials(nodeDatum.name);
+  const initials = getInitials(displayName);
 
   return (
     <g onClick={toggleNode}>
@@ -117,7 +64,7 @@ const renderNodeWithAvatarOrInitials = ({ nodeDatum, toggleNode }) => {
         dy="-70"
         style={{ fontSize: "14px", fontWeight: "bold" }}
       >
-        {nodeDatum.name}
+        {displayName}
       </text>
 
       {nodeDatum.attributes?.department && (
@@ -140,6 +87,7 @@ const Referral = () => {
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
   const { users } = useUsers() || {};
   const [history, setHistory] = useState([]);
+  const [treeData, setTreeData] = useState(null);
   const { setLoading } = useLoading();
 
   useEffect(() => {
@@ -152,7 +100,6 @@ const Referral = () => {
     };
 
     updateDimensions();
-
     const observer = new ResizeObserver(updateDimensions);
     if (treeContainerRef.current) {
       observer.observe(treeContainerRef.current);
@@ -160,33 +107,27 @@ const Referral = () => {
 
     return () => observer.disconnect();
   }, []);
+
   useEffect(() => {
-    const loadHistory = async () => {
+    const loadData = async () => {
       try {
         setLoading(true);
-        const resp = await getReferralLog();
-        setHistory(resp);
+
+        const [refLogs, refTree] = await Promise.all([
+          getReferralLog(),
+          getRefTree(),
+        ]);
+
+        setHistory(refLogs);
+        setTreeData(refTree);
       } catch (error) {
-        toast.error(error.message || "Failed to load logs");
+        toast.error(error.message || "Failed to load referral data");
       } finally {
         setLoading(false);
       }
     };
-    loadHistory();
-  }, []);
-  useEffect(() => {
-    const loadTree = async () => {
-      try {
-        setLoading(true);
-        const resp = await getRefTree();
-        setHistory(resp);
-      } catch (error) {
-        toast.error(error.message || "Failed to load ldata");
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadTree();
+
+    loadData();
   }, []);
 
   const columns = [
@@ -225,23 +166,25 @@ const Referral = () => {
           </div>
 
           <p className="text-gray-300 mt-1">
-            0 peoples are joined by using this URL
+            0 people have joined using this URL
           </p>
 
           <div
             style={{ width: "100%", height: "500px", position: "relative" }}
             ref={treeContainerRef}
           >
-            <Tree
-              data={orgChartJson}
-              renderCustomNodeElement={renderNodeWithAvatarOrInitials}
-              orientation="vertical"
-              translate={translate}
-              zoomable={false}
-              draggable={false}
-              zoom={0.7}
-              scaleExtent={{ min: 0.3, max: 2 }}
-            />
+            {treeData && (
+              <Tree
+                data={treeData}
+                renderCustomNodeElement={renderNodeWithAvatarOrInitials}
+                orientation="vertical"
+                translate={translate}
+                zoomable={false}
+                draggable={false}
+                zoom={0.7}
+                scaleExtent={{ min: 0.3, max: 2 }}
+              />
+            )}
           </div>
         </div>
       </div>
@@ -249,7 +192,6 @@ const Referral = () => {
       <div className="flex-1 flex flex-col md:justify-between border rounded-lg bg-[#002f46] border-cyan-600 p-4 text-white">
         <div className="border-b border-cyan-600 pb-2 mb-3 flex justify-between items-center">
           <p className="font-semibold">All Referral Logs</p>
-
           <PrimaryButton type="button">Referral Profit: 0 USDT</PrimaryButton>
         </div>
         <div>

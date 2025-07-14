@@ -1,5 +1,4 @@
-import { Dropdown, DropdownItem } from "flowbite-react";
-import { Button } from "primereact/button";
+import { Button, Dropdown, DropdownItem } from "flowbite-react";
 import { Dialog } from "primereact/dialog";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -63,10 +62,11 @@ export const WalletExchange = () => {
       <div className="border-b border-cyan-600 pb-2 mb-3 flex justify-between items-center">
         <p className="font-semibold">Wallet Exchange</p>
         <Button
-          label="Exchange"
-          className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md"
+          className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md focus:outline-none focus:ring-0"
           onClick={() => setVisible(true)}
-        />
+        >
+          Exchange
+        </Button>
       </div>
       <Dialog
         header={
