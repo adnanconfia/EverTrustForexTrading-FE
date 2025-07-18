@@ -120,15 +120,29 @@ const CustomTable = ({ columns, data, actions }) => {
 
                 {actions && (
                   <td className="px-4 py-3 space-x-2">
-                    {actions.map((action, i) => (
-                      <button
-                        key={i}
-                        onClick={() => action.onClick(row)}
-                        className={action.className}
-                      >
-                        {action.label}
-                      </button>
-                    ))}
+                    {actions.map((action, i) => {
+                      const isDisabled =
+                        typeof action.disabled === "function"
+                          ? action.disabled(row)
+                          : !!action.disabled;
+
+                      return (
+                        <button
+                          key={i}
+                          onClick={() => {
+                            if (!isDisabled) action.onClick(row);
+                          }}
+                          className={`${action.className} ${
+                            isDisabled
+                              ? "opacity-80 !pointer-events-none !cursor-not-allowed"
+                              : ""
+                          }`}
+                          disabled={isDisabled}
+                        >
+                          {action.label}
+                        </button>
+                      );
+                    })}
                   </td>
                 )}
               </tr>

@@ -48,14 +48,12 @@ const ForgetPassword = () => {
           </p>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-6">
-              <label className="block text-sm font-normal text-gray-700">
-                Email address
-              </label>
+              <label className="whitebg-label">Email address</label>
               <input
                 {...register("email")}
                 type="email"
                 required
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="whitebg-input"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.email?.message}

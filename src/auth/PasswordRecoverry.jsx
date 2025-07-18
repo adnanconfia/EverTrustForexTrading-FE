@@ -61,14 +61,12 @@ const PasswordRecoverry = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1">
             <div>
-              <label className="block text-sm font-normal text-gray-700 mb-1">
-                New Password
-              </label>
+              <label className="whitebg-label mb-1">New Password</label>
               <input
                 {...register("password")}
                 type="password"
                 placeholder="Enter new password"
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="whitebg-input"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.password?.message}
@@ -76,14 +74,12 @@ const PasswordRecoverry = () => {
             </div>
 
             <div className="md:col-span-2 mt-4">
-              <label className="block text-sm font-normal text-gray-700 mb-1">
-                Confirm Password
-              </label>
+              <label className="whitebg-label mb-1">Confirm Password</label>
               <input
                 {...register("confirmPassword")}
                 type="password"
                 placeholder="Re-enter new password"
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="whitebg-input"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.confirmPassword?.message}

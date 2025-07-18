@@ -1,3 +1,17 @@
+# version: "3.8"
+
+# services:
+#   react-app:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - "4300:4300"
+#     volumes:
+#       - .:/app
+#       - /app/node_modules
+#     working_dir: /app
+#     command: npm run dev -- --port 4300 --host
 version: "3.8"
 
 services:
@@ -7,8 +21,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "4300:4300"
+    working_dir: /app
     volumes:
       - .:/app
       - /app/node_modules
-    working_dir: /app
-    command: npm run dev -- --port 4300 --host
+    command: npm run dev -- --host --port 4300

@@ -253,11 +253,7 @@ const ProfileSetting = () => {
       </div>
 
       <div className="mt-6">
-        <Button
-          type="submit"
-          disabled={!isDirty}
-          className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md"
-        >
+        <Button type="submit" disabled={!isDirty} className="add-button">
           Save Changes
         </Button>
       </div>

@@ -14,16 +14,28 @@ import { logout } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import useWalletStore from "../stores/walletStore";
+import { useEffect, useState } from "react";
 
 const GlobalHeader = ({ onSidebarToggle, sidebarVisible }) => {
   const navigate = useNavigate();
   const { users } = useUsers() || {};
   const { resetWalletState } = useWalletStore();
-  const { resetUsers } = useUsers();
-  const currentUser = users?.[0];
+  const [currentUser, setCurrentUser] = useState(null);
   const { user } = useAuth();
   const role = user || "user";
-  // console.log("Current User:", role);
+  // console.log("Current User:", currentUser);
+  useEffect(() => {
+    if (!users || users.length === 0) return;
+
+    if (role === "admin") {
+      const adminUser = users.find((u) => {
+        return u.admin === true;
+      });
+      setCurrentUser(adminUser || users[0]);
+    } else {
+      setCurrentUser(users[0]);
+    }
+  }, [users, role]);
 
   return (
     <header className="sticky top-0 left-0 w-full h-16 bg-[#002f46] px-3 text-white border-b border-gray-100 flex justify-between items-center shadow-xl z-50 py-4.5">

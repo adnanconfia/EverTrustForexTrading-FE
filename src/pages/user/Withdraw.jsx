@@ -137,15 +137,12 @@ const Withdraws = () => {
         <p className="font-semibold">Withdraw Money</p>
         <div className="flex gap-2">
           <Button
-            className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md"
+            className="add-button"
             onClick={() => navigate("/user/withdraw-account")}
           >
             Add Account
           </Button>
-          <Button
-            className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md focus:ring-0"
-            onClick={handleAdd}
-          >
+          <Button className="add-button focus:ring-0" onClick={handleAdd}>
             Add Withdraw
           </Button>
         </div>
@@ -168,9 +165,7 @@ const Withdraws = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-3">
           {/* Withdraw Account */}
           <div className="flex flex-col">
-            <label className="text-sm font-semibold mb-2 text-gray-700">
-              Withdraw Account
-            </label>
+            <label className="whitebg-label">Withdraw Account</label>
             <select
               {...register("withdraw_account")}
               onChange={(e) => {
@@ -181,7 +176,7 @@ const Withdraws = () => {
                 setValue("withdraw_account", selectedId);
                 setSelectedAccount(selectedAccount);
               }}
-              className="w-full border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 rounded-lg px-4 py-2 text-gray-700"
+              className="whitebg-input"
             >
               <option value="">Select withdraw account</option>
               {withdrawAccount.map((acc) => (
@@ -205,9 +200,7 @@ const Withdraws = () => {
           {/* Wallet Address (Read-only) */}
           {selectedAccount && (
             <div className="flex flex-col">
-              <label className="text-sm font-semibold mb-2 text-gray-700">
-                Wallet Address
-              </label>
+              <label className="whitebg-label">Wallet Address</label>
               <input
                 type="text"
                 value={selectedAccount.wallet_address}
@@ -219,11 +212,9 @@ const Withdraws = () => {
 
           {/* Amount Field (with $ prefix) */}
           <div className="flex flex-col">
-            <label className="text-sm font-semibold mb-2 text-gray-700">
-              Amount (USDT)
-            </label>
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+            <label className="whitebg-label">Amount (USDT)</label>
+            {/* <div className="relative">
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 mt-0.5 text-sm">
                 $
               </span>
               <input
@@ -242,8 +233,22 @@ const Withdraws = () => {
                 onKeyDown={(e) => {
                   if (["e", "E", "+", "-"].includes(e.key)) e.preventDefault();
                 }}
-                className="appearance-none bg-white border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 text-gray-800 px-4 py-2 rounded-lg pl-7 w-full"
+                className="whitebg-input !pl-6 w-full"
               />
+            </div> */}
+            <div className="flex border border-gray-300 rounded-md shadow-md overflow-hidden  focus-within:border-cyan-500">
+              <input
+                type="number"
+                step="any"
+                placeholder="0.00"
+                min={10}
+                max={1000}
+                {...register("amount", { required: true })}
+                className="flex-grow p-2.5 focus:outline-none"
+              />
+              <span className="px-4 py-2 bg-gray-800 text-white text-sm flex items-center">
+                USDT
+              </span>
             </div>
             {errors.amount && (
               <span className="text-red-500 text-sm mt-1">
@@ -254,11 +259,9 @@ const Withdraws = () => {
 
           {/* Fee (Read-only) */}
           <div className="flex flex-col">
-            <label className="text-sm font-semibold mb-2 text-gray-700">
-              Fees
-            </label>
+            <label className="whitebg-label">Fees</label>
             <div className="relative w-full">
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm mt-0.5">
                 $
               </span>
               <input
@@ -266,7 +269,7 @@ const Withdraws = () => {
                 readOnly
                 {...register("fee")}
                 value={calculatedFee?.toFixed(2) || "0.00"}
-                className="pl-6 pr-3 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg border border-gray-300 w-full"
+                className="!pl-6 whitebg-input"
               />
             </div>
           </div>

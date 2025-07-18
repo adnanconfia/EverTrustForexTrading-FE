@@ -123,13 +123,11 @@ const SupportTicket = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-3 ">
           {/* Title */}
           <div className="flex flex-col">
-            <label className="text-sm font-semibold mb-2 text-gray-700">
-              Title
-            </label>
+            <label className="whitebg-label">Title</label>
             <input
               type="text"
               {...register("title")}
-              className="bg-white border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 text-gray-800 px-4 py-2 rounded-lg"
+              className="whitebg-input"
             />
             {errors.title && (
               <span className="text-red-500 text-sm mt-1">
@@ -140,13 +138,11 @@ const SupportTicket = () => {
 
           {/* Description */}
           <div className="flex flex-col">
-            <label className="text-sm font-semibold mb-2 text-gray-700">
-              Description
-            </label>
+            <label className="whitebg-label">Description</label>
             <textarea
               rows={4}
               {...register("description")}
-              className="bg-white border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 text-gray-800 px-4 py-2 rounded-lg resize-none"
+              className="whitebg-input"
             ></textarea>
             {errors.description && (
               <span className="text-red-500 text-sm mt-1">
@@ -157,9 +153,7 @@ const SupportTicket = () => {
 
           {/* Image Upload */}
           <div className="flex flex-col">
-            <label className="text-sm font-semibold mb-2 text-gray-700">
-              Attach Image (optional)
-            </label>
+            <label className="whitebg-label">Attach Image (optional)</label>
 
             {imagePreview ? (
               <div className="relative w-auto h-40">
@@ -179,7 +173,7 @@ const SupportTicket = () => {
             ) : (
               <label
                 htmlFor="ticket-image-upload"
-                className="w-full h-40 border-2 border-dashed border-cyan-600 rounded-md flex flex-col items-center justify-center cursor-pointer hover:bg-cyan-800/30 transition"
+                className="w-full h-40 whitebg-file-label"
               >
                 <FaCloudUploadAlt className="text-2xl mb-2 text-cyan-400" />
                 <span className="text-cyan-300">Attach Image</span>

@@ -30,8 +30,9 @@ const Login = () => {
     mode: "onChange",
   });
   const onSubmit = async (data) => {
-    setLoading(true);
     try {
+      setLoading(true);
+
       const result = await login(data);
 
       // Save full user object
@@ -45,8 +46,6 @@ const Login = () => {
         navigate(`/${result.user}/users`);
       }
       await fetchUsers();
-
-      navigate(`/${result.user}/dashboard`);
     } catch (error) {
       toast.error(error.message || "Login failed. Please try again.");
     } finally {
@@ -66,28 +65,24 @@ const Login = () => {
           </p>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mt-6">
-              <label className="block text-sm font-normal text-gray-700">
-                Email address
-              </label>
+              <label className="whitebg-label">Email address</label>
               <input
                 {...register("email")}
                 type="email"
                 required
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="whitebg-input"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.email?.message}
               </p>
             </div>
             <div className="mt-4">
-              <label className="block text-sm font-normal text-gray-700">
-                Password
-              </label>
+              <label className="whitebg-label">Password</label>
               <input
                 type="password"
                 {...register("password")}
                 required
-                className="mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm"
+                className="whitebg-input"
               />
               <p className="text-sm text-red-500 mt-1">
                 {errors.password?.message}

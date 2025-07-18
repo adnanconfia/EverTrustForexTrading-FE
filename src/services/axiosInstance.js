@@ -8,6 +8,7 @@ const axiosInstance = axios.create({
 
 let isLoggingOut = false; // Flag to prevent redirect loop
 
+// ✅ Always read the token from localStorage inside the request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
@@ -19,17 +20,20 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+// ✅ Response interceptor for handling 401
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401 && !isLoggingOut) {
+    const token = localStorage.getItem("token");
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !isLoggingOut &&
+      token
+    ) {
       isLoggingOut = true;
-
-      // Clear local storage
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-
-      // Redirect once
       window.location.href = "/login";
     }
 

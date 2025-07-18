@@ -218,7 +218,7 @@ const AllSchema = () => {
             <Button
               type="submit"
               form="investment-form"
-              className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md focus:outline-none"
+              className="add-button focus:outline-none"
             >
               Confirm
             </Button>
@@ -232,9 +232,7 @@ const AllSchema = () => {
         >
           {/* Schema Selection */}
           <div className="flex flex-col">
-            <label className="text-sm font-semibold mb-2 text-gray-700">
-              Select Schema
-            </label>
+            <label className="whitebg-label">Select Schema</label>
             <select
               {...register("schema")}
               className="w-full border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 rounded-lg ps-2 py-2 text-gray-700"
@@ -262,9 +260,7 @@ const AllSchema = () => {
 
           {/* Wallet Selection */}
           <div className="flex flex-col">
-            <label className="text-sm font-semibold mb-2 text-gray-700">
-              Select Wallet
-            </label>
+            <label className="whitebg-label">Select Wallet</label>
             <select
               {...register("wallet")}
               className="w-full border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 rounded-lg ps-2 py-2 text-gray-700"
@@ -297,9 +293,7 @@ const AllSchema = () => {
             <>
               {/* Upload Screenshot */}
               <div className="flex flex-col mt-4">
-                <label className="text-sm font-semibold mb-2 text-gray-700">
-                  Upload Screenshot
-                </label>
+                <label className="whitebg-label">Upload Screenshot</label>
                 {!deposit_image?.[0] ? (
                   <div className="relative w-full">
                     <label
@@ -360,12 +354,10 @@ const AllSchema = () => {
 
               {/* Payment Method Selection */}
               <div className="flex flex-col mt-4">
-                <label className="text-sm font-semibold mb-2 text-gray-700">
-                  Payment Method
-                </label>
+                <label className="whitebg-label">Payment Method</label>
                 <select
                   {...register("payment_method")}
-                  className="w-full border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 rounded-lg px-4 py-2 text-gray-700"
+                  className="whitebg-input"
                 >
                   <option value="">Select method</option>
                   {paymentMethodList.map((method) => (

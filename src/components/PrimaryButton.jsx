@@ -10,7 +10,7 @@ const PrimaryButton = ({
   return (
     <Button
       type={type}
-      className={`bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md focus:outline-none ${className}`}
+      className={`add-button focus:outline-none ${className}`}
       {...props}
     >
       {children}

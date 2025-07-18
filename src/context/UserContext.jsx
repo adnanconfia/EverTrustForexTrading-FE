@@ -34,6 +34,7 @@ export const UserProvider = ({ children }) => {
         refer_code: user.refer_code ?? null,
         level: user.level ?? null,
         level_name: user.level_name ?? null,
+        admin: user.is_superuser ?? false,
       }));
       setUsers(formatted);
       setError("");

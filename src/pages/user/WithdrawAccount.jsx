@@ -154,15 +154,12 @@ const WithdrawAccount = () => {
         <p className="font-semibold">Withdraw Accounts</p>
         <div className="flex gap-2">
           {/* <Button
-            className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md focus:outline-none focus:ring-0"
+            className="add-button"
             onClick={() => navigate("/user/withdraws")}
           >
             Add Withdraw
           </Button> */}
-          <Button
-            className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md focus:outline-none focus:ring-0"
-            onClick={() => setVisible(true)}
-          >
+          <Button className="add-button" onClick={() => setVisible(true)}>
             Add Account
           </Button>
         </div>
@@ -180,13 +177,8 @@ const WithdrawAccount = () => {
       >
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-3">
           <div className="flex flex-col">
-            <label className="text-sm font-semibold mb-2 text-gray-700">
-              Choice Method
-            </label>
-            <select
-              {...register("payment_method")}
-              className="w-full border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 rounded-lg px-4 py-2 text-gray-700"
-            >
+            <label className="whitebg-label">Choice Method</label>
+            <select {...register("payment_method")} className="whitebg-input">
               <option value="">Select method</option>
               {paymentMethodList.map((method) => (
                 <option key={method.id} value={method.id}>
@@ -201,13 +193,11 @@ const WithdrawAccount = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <label className="text-sm font-semibold mb-2 text-gray-700">
-              Method Name
-            </label>
+            <label className="whitebg-label">Method Name</label>
             <input
               type="text"
               {...register("method_name")}
-              className="appearance-none bg-white border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 text-gray-800 px-4 py-2 rounded-lg"
+              className="whitebg-input"
             />
             {errors.method_name && (
               <span className="text-red-500 text-sm mt-1">
@@ -216,13 +206,11 @@ const WithdrawAccount = () => {
             )}
           </div>
           <div className="flex flex-col">
-            <label className="text-sm font-semibold mb-2 text-gray-700">
-              Wallet Address
-            </label>
+            <label className="whitebg-label">Wallet Address</label>
             <input
               type="text"
               {...register("wallet_address")}
-              className="appearance-none bg-white border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 text-gray-800 px-4 py-2 rounded-lg"
+              className="whitebg-input"
             />
             {errors.wallet_address && (
               <span className="text-red-500 text-sm mt-1">

@@ -146,10 +146,7 @@ const Deposits = () => {
     <div className="flex-1 flex flex-col md:justify-between border rounded-lg bg-[#002f46] border-cyan-600 p-4 text-white mt-5">
       <div className="border-b border-cyan-600 pb-2 mb-3 flex justify-between items-center">
         <p className="font-semibold">Deposits</p>
-        <Button
-          className="bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md focus:outline-none focus:ring-0"
-          onClick={() => setVisible(true)}
-        >
+        <Button className="add-button" onClick={() => setVisible(true)}>
           Add Deposit
         </Button>
       </div>
@@ -170,13 +167,8 @@ const Deposits = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-3">
           {/* Payment Method */}
           <div className="flex flex-col">
-            <label className="text-sm font-semibold mb-2 text-gray-700">
-              Payment Method
-            </label>
-            <select
-              {...register("payment_method")}
-              className="w-full border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 rounded-lg px-4 py-2 text-gray-700"
-            >
+            <label className="whitebg-label">Payment Method</label>
+            <select {...register("payment_method")} className="whitebg-input">
               <option value="">Select method</option>
               {paymentMethodList.map((method) => (
                 <option key={method.id} value={method.id}>
@@ -193,10 +185,8 @@ const Deposits = () => {
 
           {/* Amount */}
           <div className="flex flex-col">
-            <label className="text-sm font-semibold mb-2 text-gray-700">
-              Amount
-            </label>
-            <input
+            <label className="whitebg-label">Amount</label>
+            {/* <input
               type="number"
               min="50"
               step="1"
@@ -204,8 +194,20 @@ const Deposits = () => {
                 ["e", "E", "+", "-"].includes(e.key) && e.preventDefault()
               }
               {...register("amount")}
-              className="appearance-none bg-white border border-gray-300 focus:border-cyan-600 focus:ring-cyan-600 text-gray-800 px-4 py-2 rounded-lg"
-            />
+              className="whitebg-input"
+            /> */}
+            <div className="flex border border-gray-300 rounded-md shadow-md overflow-hidden  focus-within:border-cyan-500">
+              <input
+                type="number"
+                step="any"
+                placeholder="0.00"
+                {...register("amount", { required: true })}
+                className="flex-grow p-2.5 focus:outline-none"
+              />
+              <span className="px-4 py-2 bg-gray-800 text-white text-sm flex items-center">
+                USDT
+              </span>
+            </div>
             {errors.amount && (
               <span className="text-red-500 text-sm mt-1">
                 {errors.amount.message}
@@ -215,17 +217,12 @@ const Deposits = () => {
 
           {/* Slip Upload */}
           <div className="flex flex-col">
-            <label className="text-sm font-semibold mb-2 text-gray-700">
-              Upload Screenshot
-            </label>
+            <label className="whitebg-label">Upload Screenshot</label>
 
             {/* Show upload button only if no file is selected */}
             {!deposit_image?.[0] ? (
               <div className="relative w-full">
-                <label
-                  htmlFor="file-upload"
-                  className="flex items-center justify-center gap-2 px-4 py-2 border border-dashed border-cyan-500 text-gray-700 rounded-lg cursor-pointer hover:opacity-90 transition duration-300"
-                >
+                <label htmlFor="file-upload" className="whitebg-file-label">
                   <FaUpload size={18} />
                   <span>Select upload screenshot</span>
                 </label>

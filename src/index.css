@@ -135,6 +135,9 @@ button {
 .p-dialog-content {
   padding: 1rem 2rem 2rem 2rem;
 }
+.add-button {
+  @apply bg-rose-400 border-none hover:bg-rose-500 py-2 px-3 rounded-md focus:outline-none focus:ring-0;
+}
 .custom-input {
   @apply w-full px-3 py-2 rounded-md bg-[#2d495a] text-white h-[42px] border border-cyan-400 focus:outline-none focus:ring focus:ring-cyan-400 focus:border-cyan-400;
 }
@@ -144,4 +147,13 @@ button {
 }
 .custom-error {
   @apply text-sm text-red-500 mt-1;
+}
+.whitebg-input {
+  @apply mt-1 block w-full px-3 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-offset-cyan-500 focus:border-cyan-500 sm:text-sm;
+}
+.whitebg-label {
+  @apply block text-sm font-normal text-gray-700;
+}
+.whitebg-file-label {
+  @apply flex items-center justify-center gap-2 px-4 py-2 border-2 border-dashed border-gray-300 shadow-md text-gray-700 rounded-lg cursor-pointer hover:opacity-90 transition duration-300 mt-1;
 }
